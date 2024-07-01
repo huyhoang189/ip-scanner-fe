@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import sessionSlice from "../../toolkits/sessions/slice";
+import scanSlice from "../../toolkits/scans/slice";
 import { useEffect, useState } from "react";
 import { ContentWrapper } from "../../assets/styles/contentWrapper.style";
 import CustomBreadcrumb from "../../components/breadcrumb";
@@ -12,9 +13,16 @@ import {
   DetailButton,
   UpdateButton,
 } from "../../components/Button";
-import { Space } from "antd";
+import { Progress, Space } from "antd";
 import ModalItem from "./modal";
 import { useNavigate } from "react-router-dom";
+import { ACTION_NAME, SCAN_MODE } from "../../utils/common";
+import {
+  CaretRightOutlined,
+  PlayCircleOutlined,
+  PlaySquareOutlined,
+} from "@ant-design/icons";
+import { render } from "react-dom";
 const pageHeader = {
   breadcrumb: [
     {
@@ -37,20 +45,28 @@ const baseColumns = [
   },
   {
     title: "Tên phiên quét",
-    dataIndex: "Name",
-    key: "Name",
+    dataIndex: "Title",
+    key: "Title",
   },
-
+  {
+    title: "Lệnh",
+    dataIndex: "Command",
+    key: "Command",
+  },
+  {
+    title: "Chế độ quét",
+    dataIndex: "Mode",
+    key: "Mode",
+    render: (text, record) => {
+      return SCAN_MODE[text];
+    },
+  },
   {
     title: "Ghi chú",
     dataIndex: "Description",
     key: "Description",
   },
-  // {
-  //   title: "Trạng thái",
-  //   dataIndex: "Status",
-  //   key: "Status",
-  // },
+
   // {
   //   title: "Tiến độ",
   //   dataIndex: "Progress",
@@ -65,6 +81,7 @@ const Session = () => {
   const { sessions, isLoading, count, pageNumber, pageSize } = useSelector(
     (state) => state.sessions
   );
+
   const [keyword, setKeyword] = useState("");
 
   const onChangeKeywordInput = (key, event) => {
@@ -88,6 +105,22 @@ const Session = () => {
   const columns = [
     ...baseColumns,
     {
+      title: "Tiến độ",
+      key: "progress",
+      align: "center",
+      width: 100,
+      render: (text, record) => {
+        return (
+          <Progress
+            percent={(record?.Progress / record?.Count) * 100}
+            status="active"
+            type="circle"
+            size={50}
+          />
+        );
+      },
+    },
+    {
       title: "Công cụ",
       key: "tool",
       align: "center",
@@ -97,6 +130,18 @@ const Session = () => {
           direction="horizontal"
           style={{ width: "100%", justifyContent: "center" }}
         >
+          <UpdateButton
+            icon={<CaretRightOutlined />}
+            title="Quét"
+            onClick={() =>
+              dispatch(
+                scanSlice.actions.handleScan({
+                  actionName: ACTION_NAME.EXECUTE_ALL,
+                  item: record,
+                })
+              )
+            }
+          />
           <DetailButton onClick={() => navigate(`${record.ID}`)} />
           <UpdateButton onClick={() => handleModal(record)} />
           <DeleteButton
@@ -124,7 +169,7 @@ const Session = () => {
     dispatch(
       sessionSlice.actions.getSessions({
         keyword,
-        pageSize: 10,
+        pageSize: 20,
         pageNumber: 1,
       })
     );

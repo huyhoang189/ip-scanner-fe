@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SCAN_MODE } from "../../utils/common";
 
 const initialState = {
   sessions: [],
@@ -10,6 +11,7 @@ const initialState = {
     Progress: 0,
     CreatedAt: "",
     UpdatedAt: "",
+    Mode: "FAST_SCAN",
   },
   selectedSession: {
     ID: null,
@@ -19,6 +21,7 @@ const initialState = {
     Progress: 0,
     CreatedAt: "",
     UpdatedAt: "",
+    Mode: "FAST_SCAN",
   },
   errorMessage: false,
   isLoading: false,

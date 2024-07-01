@@ -6,6 +6,7 @@ import {
   deleteItem,
   create,
   execute,
+  executeAll,
 } from "../../apis/scan.api";
 
 function* _getBySessionId({ payload }) {
@@ -30,6 +31,8 @@ function* _handleItem({ payload }) {
       ({ data, status } = yield call(create, item));
     } else if (actionName === ACTION_NAME.EXECUTE) {
       ({ data, status } = yield call(execute, item));
+    } else if (actionName === ACTION_NAME.EXECUTE_ALL) {
+      ({ data, status } = yield call(executeAll, item));
     } else if (actionName === ACTION_NAME.DELETE) {
       ({ data, status } = yield call(deleteItem, { ID: item.ID }));
     }

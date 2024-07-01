@@ -27,6 +27,14 @@ export const execute = (payload) => {
   });
 };
 
+export const executeAll = (payload) => {
+  return api.makeRequest({
+    url: `/scans/execute-all/${payload?.ID}`,
+    method: "GET",
+    data: payload,
+  });
+};
+
 export const identify = (payload) => {
   return api.makeRequest({
     url: `/scans/identify/${payload?.ID}`,

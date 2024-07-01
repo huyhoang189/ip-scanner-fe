@@ -178,7 +178,7 @@ const ScanBySession = () => {
             icon={<WarningOutlined />}
           />
 
-          <UpdateButton
+          {/* <UpdateButton
             icon={
               record?.Status === "SCANNING" ? (
                 <LoadingOutlined />
@@ -197,7 +197,7 @@ const ScanBySession = () => {
                 })
               );
             }}
-          />
+          /> */}
           <DeleteButton
             onConfirm={() => {
               dispatch(
@@ -234,7 +234,7 @@ const ScanBySession = () => {
       dispatch(
         scanSlice.actions.getScanBySessionIDs({
           keyword,
-          pageSize: 10,
+          pageSize: 30,
           pageNumber: 1,
           SessionID: session_id,
         })
@@ -261,7 +261,7 @@ const ScanBySession = () => {
               property={"keyword"}
               width={20}
             />
-            <CreateButton onClick={() => handleModal(null)} />
+            {/* <CreateButton onClick={() => handleModal(null)} /> */}
           </Header>
         }
         data={scans}

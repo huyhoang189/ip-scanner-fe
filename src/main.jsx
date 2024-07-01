@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     theme={{
       token: {
         colorBgHome: "#d6d9dc",
-        colorBgHeader: "#12110d",
+        colorBgHeader: "#101720",
         borderRadius: 3,
         colorBorderSecondary: "#d6d9dc",
         fontSize: 13,
@@ -26,9 +26,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         },
         Tree: {},
         Menu: {
-          darkItemBg: "#12110d",
-          darkPopupBg: "#353535",
-          darkItemSelectedBg: "#656565",
+          darkItemBg: "#101720",
+          darkPopupBg: "#2b3d55",
+          darkItemSelectedBg: "#2b3d55",
         },
         Button: {
           primaryShadow: "",

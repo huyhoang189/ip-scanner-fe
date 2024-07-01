@@ -3,19 +3,17 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -59,7 +57,7 @@ const LineChart = ({ data }) => {
     },
   };
 
-  return <Line data={dataSouce} options={options} height={200} width={800} />;
+  return <Bar data={dataSouce} options={options} height={200} width={800} />;
 };
 
 export default LineChart;
