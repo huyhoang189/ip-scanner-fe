@@ -7,9 +7,13 @@ import TreeInput from "../../components/Form/treeInput.jsx";
 import CustomeModal from "../../components/Form/modal.jsx";
 import NumberInput from "../../components/Form/numberinput.jsx";
 import SelectInput from "../../components/Form/selectinput.jsx";
+import { useParams } from "react-router-dom";
 
 const ModalItem = () => {
   const dispatch = useDispatch();
+  const params = useParams();
+
+  const { id } = params;
   const { modalActive, selectedCurator } = useSelector(
     (state) => state.curators
   );
@@ -21,7 +25,10 @@ const ModalItem = () => {
     let item = Object.assign({}, _item);
     dispatch(
       curatorSlice.actions.handleCurator({
-        item: item,
+        item: {
+          ...item,
+          DepartmentID: id,
+        },
         actionName: _actionName,
       })
     );
@@ -59,8 +66,8 @@ const ModalItem = () => {
         title="Chức vụ"
         // placeholder="Nhập vào mô tả phiên quét"
         onChange={onRecordInputChange}
-        property={"Description"}
-        value={selectedCurator?.Description}
+        property={"Position"}
+        value={selectedCurator?.Position}
       />
       <TextInput
         title="Số điện thoại di động"

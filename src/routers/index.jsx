@@ -6,6 +6,7 @@ import Department from "../pages/departments";
 import IpRange from "../pages/ipRanges";
 import Session from "../pages/sessions";
 import ScanBySession from "../pages/scans";
+import Curator from "../pages/curators";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -29,12 +30,17 @@ export const router = createBrowserRouter([
         path: "ipranges",
         element: <IpRange />,
       },
+
       {
         path: "systems",
         children: [
           {
             path: "departments",
             element: <Department />,
+          },
+          {
+            path: "departments/:id",
+            element: <Curator />,
           },
         ],
       },

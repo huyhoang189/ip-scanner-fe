@@ -146,11 +146,6 @@ const Session = () => {
                 })
               )
             }
-            // disabled={
-            //   Math.round((record?.Progress / record?.Count) * 100) != 100
-            //     ? true
-            //     : false
-            // }
           />
           <UpdateButton
             onClick={() => handleModal(record)}
@@ -161,11 +156,6 @@ const Session = () => {
             }
           />
           <DeleteButton
-            // disabled={
-            //   Math.round((record?.Progress / record?.Count) * 100) != 100
-            //     ? true
-            //     : false
-            // }
             onConfirm={() => {
               dispatch(
                 sessionSlice.actions.handleSession({

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   countWithDateRange: [],
   countIpRange: [],
+  overview: [[]],
 };
 
 const reducer = createSlice({
@@ -11,7 +12,6 @@ const reducer = createSlice({
   reducers: {
     getCountWithDateRange: (state, action) => {},
     getCountWithDateRangeSuccess: (state, action) => {
-      console.log(action.payload);
       state.countWithDateRange = action.payload.Data;
     },
     getCountWithDateRangeError: (state, action) => {
@@ -25,6 +25,14 @@ const reducer = createSlice({
     },
     getCountIpRangeError: (state, action) => {
       state.countIpRange = action.payload ? action.payload : state.countIpRange;
+    },
+
+    getOverview: (state, action) => {},
+    getOverviewSuccess: (state, action) => {
+      state.overview = action.payload.Data;
+    },
+    getOverviewError: (state, action) => {
+      state.overview = action.payload ? action.payload : state.overview;
     },
   },
 });

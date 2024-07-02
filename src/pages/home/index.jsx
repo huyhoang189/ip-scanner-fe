@@ -3,13 +3,14 @@ import { ContentWrapper } from "../../assets/styles/contentWrapper.style";
 import CustomBreadcrumb from "../../components/breadcrumb";
 import statisticSlice from "../../toolkits/statistics/slice";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Col, Row, Space, Statistic, Typography } from "antd";
+import { Card, Col, Divider, Row, Space, Statistic, Typography } from "antd";
 import PieChartCustome from "./chart/pie.chart";
 import LineChart from "./chart/line.chart";
 import {
   ArrowUpOutlined,
   BarChartOutlined,
   CloudSyncOutlined,
+  FileUnknownFilled,
   GlobalOutlined,
   PartitionOutlined,
   ScanOutlined,
@@ -62,7 +63,7 @@ const formatDate = (date) => {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { countIpRange, countWithDateRange } = useSelector(
+  const { countIpRange, countWithDateRange, overview } = useSelector(
     (state) => state.statistics
   );
 
@@ -75,6 +76,7 @@ const Home = () => {
     dispatch(
       statisticSlice.actions.getCountWithDateRange({ startTime, endTime })
     );
+    dispatch(statisticSlice.actions.getOverview());
   }, [dispatch]);
 
   useEffect(() => {
@@ -105,7 +107,7 @@ const Home = () => {
         data={[
           {
             title: "Đơn vị trên địa bàn",
-            count: 28,
+            count: overview?.DepartmentCount,
             icon: (
               <PartitionOutlined
                 style={{
@@ -118,61 +120,62 @@ const Home = () => {
                 }}
               />
             ),
-            description: "Tăng so với tháng trước",
+            // description: "Tăng so với tháng trước",
           },
           {
-            title: "Dải địa chỉ IP",
-            count: 6,
+            title: "Tổng số dải địa chỉ IP",
+            count: overview?.IpRangeCount,
             icon: (
               <GlobalOutlined
                 style={{
                   fontSize: "30px",
                   color: "#fff",
                   margin: "0 10px 0 0",
-                  backgroundColor: "#007bff",
+                  backgroundColor: "#36BA98",
                   padding: 10,
                   borderRadius: 10,
                 }}
               />
             ),
-            description: "Tăng so với tháng trước",
+            // description: "Tăng so với tháng trước",
           },
           {
-            title: "Phiên đã quét",
-            count: 1,
+            title: "Dải địa chỉ IP lạ",
+            count: overview?.StrangeIpRangeCount,
+            icon: (
+              <FileUnknownFilled
+                style={{
+                  fontSize: "30px",
+                  color: "#fff",
+                  margin: "0 10px 0 0",
+                  backgroundColor: "#FF8042",
+                  padding: 10,
+                  borderRadius: 10,
+                }}
+              />
+            ),
+            // description: "Giảm so với tháng trước",
+          },
+          {
+            title: "Tổng số phiên quét",
+            count: overview?.SessionCount,
             icon: (
               <ScanOutlined
                 style={{
                   fontSize: "30px",
                   color: "#fff",
                   margin: "0 10px 0 0",
-                  backgroundColor: "#007bff",
+                  backgroundColor: "#939185",
                   padding: 10,
                   borderRadius: 10,
                 }}
               />
             ),
-            description: "Giảm so với tháng trước",
-          },
-          {
-            title: "Phiên đang quét",
-            count: 0,
-            icon: (
-              <CloudSyncOutlined
-                style={{
-                  fontSize: "30px",
-                  color: "#fff",
-                  margin: "0 10px 0 0",
-                  backgroundColor: "#007bff",
-                  padding: 10,
-                  borderRadius: 10,
-                }}
-              />
-            ),
-            description: "Giảm so với tháng trước",
+            // description: "Giảm so với tháng trước",
           },
         ]}
       />
+      {/* <Divider style={{ marginTop: 10, marginBottom: 10 }} /> */}
       <Row gutter={16}>
         <Col span={16}>
           <Typography.Text style={{ fontWeight: "bold" }}>
@@ -186,10 +189,10 @@ const Home = () => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col span={16}>
+        <Col span={14}>
           <LineChart data={lineData} />
         </Col>
-        <Col span={8}>
+        <Col span={10}>
           <PieChartCustome data={countIpRange} />
         </Col>
       </Row>

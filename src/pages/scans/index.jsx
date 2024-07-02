@@ -58,15 +58,7 @@ const baseColumns = [
     dataIndex: "Command",
     key: "Command",
   },
-  // {
-  //   title: "Danh sách IP",
-  //   dataIndex: "Ips",
-  //   key: "Ips",
-  //   width: "40%",
-  //   render: (text, record) => {
-  //     return <Text>{record?.Ips}</Text>;
-  //   },
-  // },
+
   {
     title: "Định danh",
     dataIndex: "Identified",
@@ -107,6 +99,11 @@ const baseColumns = [
         ? convertTime(record?.UpdatedAt)
         : "";
     },
+  },
+  {
+    title: "Đơn vị",
+    dataIndex: "DepartmentName",
+    key: "DepartmentName",
   },
 ];
 

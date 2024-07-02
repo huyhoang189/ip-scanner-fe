@@ -24,7 +24,7 @@ const PieChartCustome = ({ data }) => {
       },
     },
   };
-  return <Pie data={chartData} options={options} height={200} width={200} />;
+  return <Pie data={chartData} options={options} height={300} width={300} />;
 };
 
 export default PieChartCustome;

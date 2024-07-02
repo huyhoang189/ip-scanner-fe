@@ -39,7 +39,7 @@ function* _handleItem({ payload }) {
     );
 
     if (isSuccess) {
-      yield put(curatorSlice.actions.getCurators(payload));
+      yield put(curatorSlice.actions.getCurators(item));
     }
   } catch (error) {
     yield put(curatorSlice.actions.handleCuratorError());

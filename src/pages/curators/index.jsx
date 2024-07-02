@@ -15,7 +15,7 @@ import {
 } from "../../components/Button";
 import { Progress, Space } from "antd";
 import ModalItem from "./modal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ACTION_NAME, SCAN_MODE } from "../../utils/common";
 import {
   CaretRightOutlined,
@@ -58,7 +58,7 @@ const baseColumns = [
   },
 
   {
-    title: "Số điện thoại di độn",
+    title: "Số điện thoại di động",
     dataIndex: "MobileNumber",
     key: "MobileNumber",
   },
@@ -71,6 +71,9 @@ const baseColumns = [
 
 const Curator = () => {
   const dispatch = useDispatch();
+  const params = useParams();
+
+  const { id } = params;
 
   const { curators } = useSelector((state) => state.curators);
 
@@ -111,8 +114,7 @@ const Curator = () => {
   useEffect(() => {
     dispatch(
       curatorSlice.actions.getCurators({
-        pageSize: 20,
-        pageNumber: 1,
+        DepartmentID: id,
       })
     );
   }, [dispatch]);
@@ -120,7 +122,15 @@ const Curator = () => {
   return (
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
-      <CustomeTable data={curators} columns={columns} />
+      <CustomeTable
+        header={
+          <Header>
+            <CreateButton onClick={() => handleModal(null)} />
+          </Header>
+        }
+        data={curators}
+        columns={columns}
+      />
       <ModalItem />
     </ContentWrapper>
   );

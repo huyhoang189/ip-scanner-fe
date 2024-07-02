@@ -9,11 +9,13 @@ import TextInput from "../../components/Form/textinput";
 import {
   CreateButton,
   DeleteButton,
+  DetailButton,
   UpdateButton,
 } from "../../components/Button";
 import { Space } from "antd";
 import ModalItem from "./modal";
 import { generateTrees } from "../../utils/tree";
+import { useNavigate } from "react-router-dom";
 const pageHeader = {
   breadcrumb: [
     {
@@ -66,6 +68,7 @@ const baseColumns = [
 
 const Department = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { departments, isLoading, count, pageNumber, pageSize } = useSelector(
     (state) => state.departments
@@ -105,6 +108,10 @@ const Department = () => {
           direction="horizontal"
           style={{ width: "100%", justifyContent: "center" }}
         >
+          <DetailButton
+            onClick={() => navigate(`${record.ID}`)}
+            title="Cán bộ phụ trách"
+          />
           <CreateButton
             onClick={() =>
               handleModal({
