@@ -10,6 +10,7 @@ import TextInput from "../../components/Form/textinput";
 import {
   CreateButton,
   DeleteButton,
+  DetailButton,
   UpdateButton,
 } from "../../components/Button";
 import { Space, Tag, Typography } from "antd";
@@ -17,11 +18,15 @@ import ModalItem from "./modal";
 import IdentifyModalItem from "../identifies/modal";
 import { useParams } from "react-router-dom";
 import {
+  FileExcelOutlined,
   LoadingOutlined,
   SyncOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
 import { convertTime } from "../../utils/time";
+import { exportFileExcel } from "../../apis/scan.api";
+import { saveAs } from "file-saver";
+import axios from "axios";
 
 const { Text } = Typography;
 
@@ -219,6 +224,40 @@ const ScanBySession = () => {
     },
   ];
 
+  const exportFile = async (sessionId) => {
+    // const data = await exportFileExcel({ ID: sessionId });
+
+    // if (data) {
+    //   // Create a Blob from the response
+    //   const blob = new Blob([data], {
+    //     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    //   });
+
+    //   // Use FileSaver to save the file
+    //   saveAs(blob, "export.xlsx");
+    // }
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_BASE_BE_URL
+        }/scans/export-to-excel/${sessionId}`,
+        {
+          responseType: "blob", // Important
+        }
+      );
+
+      // Create a Blob from the response
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      // Use FileSaver to save the file
+      saveAs(blob, "export.xlsx");
+    } catch (error) {
+      console.error("Error downloading the file", error);
+    }
+  };
+
   //side effect
   useEffect(() => {
     // dispatch(
@@ -261,7 +300,12 @@ const ScanBySession = () => {
               property={"keyword"}
               width={20}
             />
-            {/* <CreateButton onClick={() => handleModal(null)} /> */}
+            <DetailButton
+              onClick={() => exportFile(session_id)}
+              icon={<FileExcelOutlined />}
+              title="Trích xuất dữ liệu"
+              name="Excel"
+            />
           </Header>
         }
         data={scans}

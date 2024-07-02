@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import sessionSlice from "../../toolkits/sessions/slice";
 import scanSlice from "../../toolkits/scans/slice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ContentWrapper } from "../../assets/styles/contentWrapper.style";
 import CustomBreadcrumb from "../../components/breadcrumb";
 import CustomeTable from "../../components/Table/table";
@@ -22,7 +22,7 @@ import {
   PlayCircleOutlined,
   PlaySquareOutlined,
 } from "@ant-design/icons";
-import { render } from "react-dom";
+
 const pageHeader = {
   breadcrumb: [
     {
@@ -77,6 +77,7 @@ const baseColumns = [
 const Session = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const intervalRef = useRef();
 
   const { sessions, isLoading, count, pageNumber, pageSize } = useSelector(
     (state) => state.sessions
@@ -110,12 +111,15 @@ const Session = () => {
       align: "center",
       width: 100,
       render: (text, record) => {
+        const percentage = Math.round((record?.Progress / record?.Count) * 100);
+        const status = percentage !== 100 ? "active" : "success";
+
         return (
           <Progress
-            percent={(record?.Progress / record?.Count) * 100}
-            status="active"
+            percent={percentage}
             type="circle"
             size={50}
+            status={status}
           />
         );
       },
@@ -130,6 +134,7 @@ const Session = () => {
           direction="horizontal"
           style={{ width: "100%", justifyContent: "center" }}
         >
+          <DetailButton onClick={() => navigate(`${record.ID}`)} />
           <UpdateButton
             icon={<CaretRightOutlined />}
             title="Quét"
@@ -141,10 +146,26 @@ const Session = () => {
                 })
               )
             }
+            // disabled={
+            //   Math.round((record?.Progress / record?.Count) * 100) != 100
+            //     ? true
+            //     : false
+            // }
           />
-          <DetailButton onClick={() => navigate(`${record.ID}`)} />
-          <UpdateButton onClick={() => handleModal(record)} />
+          <UpdateButton
+            onClick={() => handleModal(record)}
+            disabled={
+              Math.round((record?.Progress / record?.Count) * 100) != 100
+                ? true
+                : false
+            }
+          />
           <DeleteButton
+            // disabled={
+            //   Math.round((record?.Progress / record?.Count) * 100) != 100
+            //     ? true
+            //     : false
+            // }
             onConfirm={() => {
               dispatch(
                 sessionSlice.actions.handleSession({
@@ -164,15 +185,25 @@ const Session = () => {
     },
   ];
 
+  const exportFile = async (sessionId) => {};
+
   //side effect
   useEffect(() => {
-    dispatch(
-      sessionSlice.actions.getSessions({
-        keyword,
-        pageSize: 20,
-        pageNumber: 1,
-      })
-    );
+    const fetchScans = () => {
+      dispatch(
+        sessionSlice.actions.getSessions({
+          keyword,
+          pageSize: 20,
+          pageNumber: 1,
+        })
+      );
+    };
+
+    fetchScans(); // initial fetch
+
+    intervalRef.current = setInterval(fetchScans, 5000); // fetch every 5 seconds
+
+    return () => clearInterval(intervalRef.current); // clean
   }, [dispatch, keyword]);
 
   return (
@@ -193,7 +224,7 @@ const Session = () => {
         }
         data={sessions}
         columns={columns}
-        isLoading={isLoading}
+        // isLoading={isLoading}
         pagination={{
           current: pageNumber,
           pageSize: pageSize,

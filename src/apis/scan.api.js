@@ -49,3 +49,11 @@ export const deleteItem = (payload) => {
     method: "DELETE",
   });
 };
+
+export const exportFileExcel = (payload) => {
+  return api.makeRequest({
+    url: `/scans/export-to-excel/${payload?.ID}`,
+    method: "GET",
+    responseType: "blob", // Important
+  });
+};
