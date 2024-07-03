@@ -145,7 +145,7 @@ const IpRange = () => {
       dispatch(
         ipRangeSlice.actions.getIpRanges({
           keyword,
-          pageSize: 10,
+          pageSize: 20,
           pageNumber: 1,
           departmentId: departmentNodeSelected?.value,
         })
