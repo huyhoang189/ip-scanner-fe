@@ -124,7 +124,7 @@ const Home = () => {
           },
           {
             title: "Tổng số dải địa chỉ IP",
-            count: overview?.IpRangeCount,
+            count: overview?.IpRangeCount + countIpRange?.IpRangeCount,
             icon: (
               <GlobalOutlined
                 style={{

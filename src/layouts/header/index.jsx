@@ -38,7 +38,7 @@ const Header = () => {
           onClick={onClickSelectItem}
           mode="horizontal"
           theme={"dark"}
-          style={{ width: "100%" }}
+          style={{ width: 650 }}
           items={[
             {
               key: "",

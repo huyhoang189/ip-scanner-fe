@@ -118,7 +118,7 @@ const Session = () => {
           <Progress
             percent={percentage}
             type="circle"
-            size={50}
+            size={40}
             status={status}
           />
         );
