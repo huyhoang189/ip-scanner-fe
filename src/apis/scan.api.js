@@ -6,7 +6,9 @@ export const getBySessionId = (payload) => {
   return api.makeRequest({
     url: `/scans/get-by-session-id/${payload?.SessionID}?pageSize=${
       payload?.pageSize || 10
-    }&pageNumber=${payload?.pageNumber || 1}&filter=${payload?.keyword || ""}`,
+    }&pageNumber=${payload?.pageNumber || 1}&filter=${
+      payload?.keyword || ""
+    }&status=${payload?.status || ""}`,
     method: "GET",
   });
 };

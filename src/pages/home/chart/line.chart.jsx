@@ -1,63 +1,32 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+import * as React from "react";
+import { LineChart } from "@mui/x-charts/LineChart";
+import { axisClasses } from "@mui/x-charts";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-const LineChart = ({ data }) => {
-  const dataSouce = {
-    labels: ["0", ...data?.map((e) => e?.date)],
-    datasets: [
-      {
-        label: "Số lượng dải IP",
-        data: [0, ...data?.map((e) => e?.count)], // Replace with actual data values
-        fill: false, // Set to 'true' for a filled line chart
-        backgroundColor: "#007bff", // Adjust color as needed
-        borderColor: "#007bff", // Match border color with background
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    title: {
-      display: true,
-      text: "SrcCount Over Time", // Adjust title as needed
+const chartSetting = {
+  sx: {
+    // [`.${axisClasses.left} .${axisClasses.label}`]: {
+    //   transform: "rotate(-90deg) translate(0px, -20px)",
+    // },
+    [`.${axisClasses.bottom} .${axisClasses.tickLabel}`]: {
+      transform: "rotate(-10deg)",
     },
-    scales: {
-      //   yAxes: [
-      //     {
-      //       ticks: {
-      //         beginAtZero: true, // Start y-axis from 0
-      //       },
-      //     },
-      //   ],
-      x: {
-        ticks: {
-          maxRotation: 45,
-          minRotation: 45,
-        },
-      },
-    },
-  };
-
-  return <Bar data={dataSouce} options={options} height={200} width={800} />;
+  },
 };
-
-export default LineChart;
+export default function LineChart_v2({ data, width }) {
+  console.log(data);
+  return (
+    <LineChart
+      width={width - 100}
+      height={400}
+      series={[{ data: data.map((e) => e?.count), label: "Số lượng dải IP " }]}
+      xAxis={[{ scaleType: "point", data: data.map((e) => e?.date) }]}
+      slotProps={{
+        legend: {
+          // hidden: true,
+        },
+      }}
+      {...chartSetting}
+      grid={{ vertical: true, horizontal: true }}
+    />
+  );
+}

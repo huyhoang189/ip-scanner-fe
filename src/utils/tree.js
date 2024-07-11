@@ -52,6 +52,58 @@ const generateTrees = (arr) => {
   return trees;
 };
 
+const generateChildNodesOnlyKey = (arr, ParentID, parentKey) => {
+  let outputs = [];
+  let index = 0;
+  for (let element of arr) {
+    if (element.ParentID === ParentID) {
+      let children = generateChildNodesOnlyKey(
+        arr,
+        element.ID,
+        `${parentKey}-${index}`
+      );
+
+      let node = {
+        title: `${element?.Name} `,
+        key: `${parentKey}-${index}`,
+        ...element,
+      };
+
+      if (children.length > 0) {
+        node.children = children;
+      }
+
+      outputs.push(node);
+      index++;
+    }
+  }
+  return outputs;
+};
+
+const generateTreesOnlyKey = (arr) => {
+  let trees = [];
+  let index = 0;
+  for (let element of arr) {
+    if (element.ParentID === "") {
+      let node = {
+        children: [],
+        title: `${element?.Name}`,
+        key: `0-${index}`,
+        ...element,
+      };
+      trees.push(node);
+      index++;
+    }
+  }
+  trees.forEach((element, index) => {
+    let child = generateChildNodesOnlyKey(arr, element.ID, `0-${index}`);
+    trees[index].children = [...child];
+  });
+
+  // console.log(trees);
+  return trees;
+};
+
 const getKeysByTitle = (tree, value) => {
   const matchingKeys = [];
 
@@ -88,6 +140,4 @@ const getNodeByKey = (tree, key) => {
   return result;
 };
 
-const treeToList = (tree) => {};
-
-export { generateTrees, getKeysByTitle, getNodeByKey };
+export { generateTrees, generateTreesOnlyKey, getKeysByTitle, getNodeByKey };

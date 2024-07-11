@@ -13,8 +13,8 @@ import {
   DetailButton,
   UpdateButton,
 } from "../../components/Button";
-import { Space, Tag, Typography } from "antd";
-import ModalItem from "./modal";
+import { Card, Space, Tag, Typography } from "antd";
+import ModalItem from "./log.modal";
 import IdentifyModalItem from "../identifies/modal";
 import { useParams } from "react-router-dom";
 import {
@@ -257,29 +257,21 @@ const ScanBySession = () => {
 
   //side effect
   useEffect(() => {
-    // dispatch(
-    //   scanSlice.actions.getScanBySessionIDs({
-    //     keyword,
-    //     pageSize: 10,
-    //     pageNumber: 1,
-    //     SessionID: session_id,
-    //   })
-    // );
-
     const fetchScans = () => {
       dispatch(
         scanSlice.actions.getScanBySessionIDs({
           keyword,
-          pageSize: 30,
+          pageSize: 25,
           pageNumber: 1,
           SessionID: session_id,
+          status: "SUCCESS",
         })
       );
     };
 
     fetchScans(); // initial fetch
 
-    intervalRef.current = setInterval(fetchScans, 30000); // fetch every 5 seconds
+    intervalRef.current = setInterval(fetchScans, 5000); // fetch every 5 seconds
 
     return () => clearInterval(intervalRef.current); // clean
   }, [dispatch, keyword]);
@@ -287,40 +279,48 @@ const ScanBySession = () => {
   return (
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
+      <Card>
+        <CustomeTable
+          header={
+            <Header>
+              <TextInput
+                placeholder={"Nhập vào từ khoá tìm kiếm"}
+                onChange={onChangeKeywordInput}
+                property={"keyword"}
+                width={20}
+              />
+              <Space>
+                <DetailButton
+                  onClick={() => handleModal(null)}
+                  title="Chi tiết phiên quét"
+                  name="Logs"
+                />
+                <DetailButton
+                  onClick={() => exportFile(session_id)}
+                  icon={<FileExcelOutlined />}
+                  title="Trích xuất dữ liệu"
+                  name="Trích xuất"
+                />
+              </Space>
+            </Header>
+          }
+          data={scans}
+          columns={columns}
+          // isLoading={isLoading}
+          onRow={(record) => ({
+            style: rowClassName(record),
+          })}
+          pagination={{
+            current: pageNumber,
+            pageSize: pageSize,
+            total: count,
+            onChange: handlePaginationChange,
+          }}
+        />
 
-      <CustomeTable
-        header={
-          <Header>
-            <TextInput
-              placeholder={"Nhập vào từ khoá tìm kiếm"}
-              onChange={onChangeKeywordInput}
-              property={"keyword"}
-              width={20}
-            />
-            <DetailButton
-              onClick={() => exportFile(session_id)}
-              icon={<FileExcelOutlined />}
-              title="Trích xuất dữ liệu"
-              name="Excel"
-            />
-          </Header>
-        }
-        data={scans}
-        columns={columns}
-        // isLoading={isLoading}
-        onRow={(record) => ({
-          style: rowClassName(record),
-        })}
-        pagination={{
-          current: pageNumber,
-          pageSize: pageSize,
-          total: count,
-          onChange: handlePaginationChange,
-        }}
-      />
-
-      <ModalItem />
-      <IdentifyModalItem />
+        <ModalItem />
+        <IdentifyModalItem />
+      </Card>
     </ContentWrapper>
   );
 };

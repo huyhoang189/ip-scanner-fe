@@ -12,9 +12,9 @@ import {
   DeleteButton,
   UpdateButton,
 } from "../../components/Button";
-import { Col, Row, Space, Tag } from "antd";
+import { Card, Col, Row, Space, Tag } from "antd";
 import ModalItem from "./modal";
-import { generateTrees, getNodeByKey } from "../../utils/tree";
+import { generateTreesOnlyKey, getNodeByKey } from "../../utils/tree";
 import TreeView from "../../components/TreeView";
 import { convertTime } from "../../utils/time";
 const pageHeader = {
@@ -172,44 +172,46 @@ const IpRange = () => {
 
   useEffect(() => {
     if (modalActive === false) {
-      if (departmentTrees) setTrees(generateTrees(departmentTrees));
+      if (departmentTrees) setTrees(generateTreesOnlyKey(departmentTrees));
     }
   }, [departmentTrees]);
 
   return (
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
-      <Row gutter={16}>
-        <Col span={8}>
-          <TreeView treeData={trees} onSelected={onSelected} />
-        </Col>
-        <Col span={16}>
-          <CustomeTable
-            header={
-              <Header>
-                <TextInput
-                  placeholder={"Nhập vào từ khoá tìm kiếm"}
-                  onChange={onChangeKeywordInput}
-                  property={"keyword"}
-                  width={20}
-                />
-                <CreateButton onClick={() => handleModal(null)} />
-              </Header>
-            }
-            data={ipRanges}
-            columns={columns}
-            isLoading={isLoading}
-            pagination={{
-              current: pageNumber,
-              pageSize: pageSize,
-              total: count,
-              onChange: handlePaginationChange,
-            }}
-          />
-        </Col>
-      </Row>
+      <Card>
+        <Row gutter={16}>
+          <Col span={8}>
+            <TreeView treeData={trees ? trees : []} onSelected={onSelected} />
+          </Col>
+          <Col span={16}>
+            <CustomeTable
+              header={
+                <Header>
+                  <TextInput
+                    placeholder={"Nhập vào từ khoá tìm kiếm"}
+                    onChange={onChangeKeywordInput}
+                    property={"keyword"}
+                    width={20}
+                  />
+                  <CreateButton onClick={() => handleModal(null)} />
+                </Header>
+              }
+              data={ipRanges}
+              columns={columns}
+              isLoading={isLoading}
+              pagination={{
+                current: pageNumber,
+                pageSize: pageSize,
+                total: count,
+                onChange: handlePaginationChange,
+              }}
+            />
+          </Col>
+        </Row>
 
-      <ModalItem />
+        <ModalItem />
+      </Card>
     </ContentWrapper>
   );
 };

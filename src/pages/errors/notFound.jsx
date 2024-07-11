@@ -5,9 +5,10 @@ const NotFound = () => {
   const navigate = useNavigate();
   return (
     <Result
+      // style={{ color: "#fff !important" }}
       status="404"
       title="404"
-      subTitle="Sorry, The page you requested does not exist!"
+      subTitle="Xin lỗi, trang không tồn tại!"
       extra={
         <Button type="primary" onClick={() => navigate(-1)}>
           Quay lại

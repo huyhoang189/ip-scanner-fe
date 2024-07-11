@@ -12,7 +12,7 @@ import {
   DetailButton,
   UpdateButton,
 } from "../../components/Button";
-import { Space } from "antd";
+import { Card, Space } from "antd";
 import ModalItem from "./modal";
 import { generateTrees } from "../../utils/tree";
 import { useNavigate } from "react-router-dom";
@@ -165,30 +165,27 @@ const Department = () => {
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
 
-      <CustomeTable
-        header={
-          <Header>
-            {/* <TextInput
-              placeholder={"Nhập vào từ khoá tìm kiếm"}
-              onChange={onChangeKeywordInput}
-              property={"keyword"}
-              width={20}
-            /> */}
-            <CreateButton onClick={() => handleModal(null)} text="Thêm mới" />
-          </Header>
-        }
-        data={trees}
-        columns={columns}
-        isLoading={isLoading}
-        pagination={{
-          current: pageNumber,
-          pageSize: pageSize,
-          total: count,
-          onChange: handlePaginationChange,
-        }}
-      />
+      <Card>
+        <CustomeTable
+          header={
+            <Header>
+              <CreateButton onClick={() => handleModal(null)} text="Thêm mới" />
+            </Header>
+          }
+          data={trees}
+          columns={columns}
+          isLoading={isLoading}
+          pagination={{
+            current: pageNumber,
+            pageSize: pageSize,
+            total: count,
+            onChange: handlePaginationChange,
+          }}
+        />
 
-      <ModalItem />
+        <ModalItem />
+        <ModalItem />
+      </Card>
     </ContentWrapper>
   );
 };

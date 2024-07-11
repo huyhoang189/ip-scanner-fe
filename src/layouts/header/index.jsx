@@ -56,12 +56,9 @@ const Header = () => {
             },
             {
               key: "statistics",
-              label: "Thống kê",
+              label: "Thống kê, báo cáo",
             },
-            {
-              key: "reports",
-              label: "Báo cáo",
-            },
+
             {
               key: "systems",
               label: "Quản lý hệ thống",

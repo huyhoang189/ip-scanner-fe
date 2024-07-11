@@ -10,6 +10,7 @@ const CustomeTable = ({
   rowSelection = null,
   onRow = null,
   header = null,
+  showHeader = true,
 }) => {
   let dataSource = [];
   dataSource = data.map((e, i) => ({
@@ -30,6 +31,7 @@ const CustomeTable = ({
         bordered
         expandable={{ defaultExpandedRowKeys: ["0-0"] }}
         onRow={onRow}
+        showHeader={showHeader}
       />
     </Row>
   );
@@ -43,5 +45,6 @@ CustomeTable.propTypes = {
   rowSelection: PropTypes.object,
   onRow: PropTypes.func,
   header: PropTypes.element,
+  showHeader: PropTypes.bool,
 };
 export default CustomeTable;

@@ -8,3 +8,10 @@ export const statisticOverview = (payload) => {
     method: "GET",
   });
 };
+
+export const statisticSessions = (payload) => {
+  return api.makeRequest({
+    url: `/statistics/sessions`,
+    method: "GET",
+  });
+};

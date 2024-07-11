@@ -21,7 +21,7 @@ const CustomBreadcrumb = ({ items = [] }) => {
   }, [time]);
 
   return (
-    <Row style={{ width: "100%" }}>
+    <Row style={{ width: "100%", marginBottom: 10 }}>
       <Flex align="center" justify="space-between" style={{ width: "100%" }}>
         <Breadcrumb style={{ margin: "auto", marginLeft: 0 }}>
           {items.map((e, i) => (
@@ -42,7 +42,7 @@ const CustomBreadcrumb = ({ items = [] }) => {
         </Space>
       </Flex>
 
-      <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+      {/* <Divider style={{ marginTop: 10, marginBottom: 10 }} /> */}
     </Row>
   );
 };

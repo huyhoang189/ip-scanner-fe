@@ -6,6 +6,8 @@ const CardView = ({ item, width }) => {
     <Card
       style={{
         width: `${width}%`,
+
+        // backgroundColor: "#FF8042",
       }}
     >
       <Flex vertical={false} align="center">

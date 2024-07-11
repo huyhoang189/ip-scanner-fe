@@ -12,19 +12,19 @@ const MainLayout = () => {
       style={{
         margin: 0,
         // minHeight: 600,
-        minHeight: height,
+        minHeight: height - 5,
         backgroundColor: token.colorBgHome,
       }}
     >
       <Header />
       <Content
         style={{
-          margin: 10,
+          // margin: 10,
           padding: 10,
-          background: "#FFFFFF",
-          minHeight: "calc(100% - 60px - 60px)",
-          border: `solid 1px ${token.colorBorder}`,
-          borderRadius: 3,
+          // background: "#FFFFFF",
+          minHeight: "calc(100% - 60px - 70px)",
+          // border: `solid 1px ${token.colorBorder}`,
+          // borderRadius: 3,
         }}
       >
         <Outlet />

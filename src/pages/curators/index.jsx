@@ -13,7 +13,7 @@ import {
   DetailButton,
   UpdateButton,
 } from "../../components/Button";
-import { Progress, Space } from "antd";
+import { Card, Progress, Space } from "antd";
 import ModalItem from "./modal";
 import { useNavigate, useParams } from "react-router-dom";
 import { ACTION_NAME, SCAN_MODE } from "../../utils/common";
@@ -122,16 +122,18 @@ const Curator = () => {
   return (
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
-      <CustomeTable
-        header={
-          <Header>
-            <CreateButton onClick={() => handleModal(null)} />
-          </Header>
-        }
-        data={curators}
-        columns={columns}
-      />
-      <ModalItem />
+      <Card>
+        <CustomeTable
+          header={
+            <Header>
+              <CreateButton onClick={() => handleModal(null)} />
+            </Header>
+          }
+          data={curators}
+          columns={columns}
+        />
+        <ModalItem />
+      </Card>
     </ContentWrapper>
   );
 };

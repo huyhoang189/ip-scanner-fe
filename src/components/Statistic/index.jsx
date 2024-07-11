@@ -5,7 +5,7 @@ const StatisticView = ({ data }) => {
   const width = (100 - 2) / data?.length;
   return (
     <Flex
-      style={{ width: "100%", marginBottom: 20 }}
+      style={{ width: "100%", marginBottom: 10 }}
       vertical={false}
       justify="space-between"
       align="center"

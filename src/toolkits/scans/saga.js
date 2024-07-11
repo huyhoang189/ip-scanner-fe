@@ -53,11 +53,28 @@ function* _handleItem({ payload }) {
   }
 }
 
+function* _getScanLogBySessionId({ payload }) {
+  try {
+    const { data, status } = yield call(getBySessionId, payload);
+    if (status === 200 || status === 201) {
+      yield put(scanSlice.actions.getScanLogBySessionIDsSuccess(data));
+    } else {
+      yield put(scanSlice.actions.getScanLogBySessionIDsError([]));
+    }
+  } catch (error) {
+    yield put(scanSlice.actions.getScanLogBySessionIDsError([]));
+  }
+}
+
 export default function* saga() {
   yield all([
     yield takeEvery(
       scanSlice.actions.getScanBySessionIDs().type,
       _getBySessionId
+    ),
+    yield takeEvery(
+      scanSlice.actions.getScanLogBySessionIDs().type,
+      _getScanLogBySessionId
     ),
     yield takeEvery(scanSlice.actions.handleScan().type, _handleItem),
   ]);

@@ -13,7 +13,7 @@ import {
   DetailButton,
   UpdateButton,
 } from "../../components/Button";
-import { Progress, Space } from "antd";
+import { Card, Progress, Space, Tag } from "antd";
 import ModalItem from "./modal";
 import { useNavigate } from "react-router-dom";
 import { ACTION_NAME, SCAN_MODE } from "../../utils/common";
@@ -22,6 +22,7 @@ import {
   PlayCircleOutlined,
   PlaySquareOutlined,
 } from "@ant-design/icons";
+import { convertTime } from "../../utils/time";
 
 const pageHeader = {
   breadcrumb: [
@@ -66,12 +67,29 @@ const baseColumns = [
     dataIndex: "Description",
     key: "Description",
   },
+  {
+    title: "Trạng thái",
+    dataIndex: "Status",
+    key: "Status",
+    render: (text, record) => {
+      return record?.Status === "NOTHING" ? (
+        <Tag color="red">Chưa quét</Tag>
+      ) : record?.Status === "SCANNING" ? (
+        <Tag color="yellow">Đang quét</Tag>
+      ) : (
+        <Tag color="green">Đã quét xong</Tag>
+      );
+    },
+  },
 
-  // {
-  //   title: "Tiến độ",
-  //   dataIndex: "Progress",
-  //   key: "Progress",
-  // },
+  {
+    title: "Thời gian kết thúc",
+    dataIndex: "UpdatedAt",
+    key: "UpdatedAt",
+    render: (text, record) => {
+      return convertTime(text);
+    },
+  },
 ];
 
 const Session = () => {
@@ -200,30 +218,32 @@ const Session = () => {
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
 
-      <CustomeTable
-        header={
-          <Header>
-            <TextInput
-              placeholder={"Nhập vào từ khoá tìm kiếm"}
-              onChange={onChangeKeywordInput}
-              property={"keyword"}
-              width={20}
-            />
-            <CreateButton onClick={() => handleModal(null)} />
-          </Header>
-        }
-        data={sessions}
-        columns={columns}
-        // isLoading={isLoading}
-        pagination={{
-          current: pageNumber,
-          pageSize: pageSize,
-          total: count,
-          onChange: handlePaginationChange,
-        }}
-      />
+      <Card>
+        <CustomeTable
+          header={
+            <Header>
+              <TextInput
+                placeholder={"Nhập vào từ khoá tìm kiếm"}
+                onChange={onChangeKeywordInput}
+                property={"keyword"}
+                width={20}
+              />
+              <CreateButton onClick={() => handleModal(null)} />
+            </Header>
+          }
+          data={sessions}
+          columns={columns}
+          // isLoading={isLoading}
+          pagination={{
+            current: pageNumber,
+            pageSize: pageSize,
+            total: count,
+            onChange: handlePaginationChange,
+          }}
+        />
 
-      <ModalItem />
+        <ModalItem />
+      </Card>
     </ContentWrapper>
   );
 };

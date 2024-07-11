@@ -58,13 +58,24 @@ const reducer = createSlice({
     },
     handleScan: (state, action) => {},
     handleScanSuccess: (state, action) => {
-      state.modalActive = false;
+      // state.modalActive = false;
       state.errorMessage = false;
       state.selectedScan = action.payload;
     },
     handleScanError: (state, action) => {},
     updateSelectedScanInput: (state, action) => {
       state.selectedScan = action.payload;
+    },
+    getScanLogBySessionIDs: (state, action) => {
+      state.errorMessage = false;
+    },
+    getScanLogBySessionIDsSuccess: (state, action) => {
+      state.errorMessage = false;
+      state.scanLogs = action.payload.Data;
+    },
+    getScanLogBySessionIDsError: (state, action) => {
+      state.errorMessage = "Error";
+      state.scanLogs = action.payload ? action.payload : state.scanLogs;
     },
   },
 });

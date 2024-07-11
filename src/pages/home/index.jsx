@@ -3,7 +3,16 @@ import { ContentWrapper } from "../../assets/styles/contentWrapper.style";
 import CustomBreadcrumb from "../../components/breadcrumb";
 import statisticSlice from "../../toolkits/statistics/slice";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Col, Divider, Row, Space, Statistic, Typography } from "antd";
+import {
+  Card,
+  Col,
+  Divider,
+  Flex,
+  Row,
+  Space,
+  Statistic,
+  Typography,
+} from "antd";
 import PieChartCustome from "./chart/pie.chart";
 import LineChart from "./chart/line.chart";
 import {
@@ -16,6 +25,9 @@ import {
   ScanOutlined,
 } from "@ant-design/icons";
 import StatisticView from "../../components/Statistic";
+import useResizeObserver from "../../hooks/useResizeObserver";
+import SimpleBarChart from "./chart/department.chart";
+import SessionBarChart from "./chart/sessions.chart";
 const pageHeader = {
   breadcrumb: [
     {
@@ -63,9 +75,12 @@ const formatDate = (date) => {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { countIpRange, countWithDateRange, overview } = useSelector(
+  const { countIpRange, countWithDateRange, overview, sessions } = useSelector(
     (state) => state.statistics
   );
+
+  const [lineBarRef, lineBarWidth] = useResizeObserver();
+  const [pieRef, pieWidth] = useResizeObserver();
 
   const [lineData, setLineData] = useState([]);
 
@@ -77,6 +92,7 @@ const Home = () => {
       statisticSlice.actions.getCountWithDateRange({ startTime, endTime })
     );
     dispatch(statisticSlice.actions.getOverview());
+    dispatch(statisticSlice.actions.getSessions());
   }, [dispatch]);
 
   useEffect(() => {
@@ -140,7 +156,7 @@ const Home = () => {
             // description: "Tăng so với tháng trước",
           },
           {
-            title: "Dải địa chỉ IP lạ",
+            title: "Dải địa chỉ IP chưa được định danh",
             count: overview?.StrangeIpRangeCount,
             icon: (
               <FileUnknownFilled
@@ -176,24 +192,39 @@ const Home = () => {
         ]}
       />
       {/* <Divider style={{ marginTop: 10, marginBottom: 10 }} /> */}
-      <Row gutter={16}>
-        <Col span={16}>
-          <Typography.Text style={{ fontWeight: "bold" }}>
-            Biểu đồ phát hiện số lượng dải địa chỉ mới trong 30 ngày
-          </Typography.Text>
+
+      <Row gutter={16} style={{ marginBottom: 10 }}>
+        <Col span={18}>
+          <Flex vertical style={{ width: "100%" }} gap={10}>
+            <Card ref={lineBarRef}>
+              <Typography.Text style={{ fontWeight: "bold" }}>
+                Biểu đồ phát hiện số lượng dải địa chỉ mới trong 30 ngày
+              </Typography.Text>
+              <LineChart data={lineData} width={Math.round(lineBarWidth)} />
+            </Card>
+          </Flex>
         </Col>
-        <Col span={8}>
-          <Typography.Text style={{ fontWeight: "bold" }}>
-            Biểu đồ thống kê số lượng dải địa chỉ được định danh
-          </Typography.Text>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={14}>
-          <LineChart data={lineData} />
-        </Col>
-        <Col span={10}>
-          <PieChartCustome data={countIpRange} />
+        <Col span={6}>
+          <Flex vertical gap={10}>
+            <Card ref={pieRef}>
+              <Typography.Text style={{ fontWeight: "bold" }}>
+                Biểu đồ thống kê số lượng dải địa chỉ được định danh
+              </Typography.Text>
+              <PieChartCustome
+                data={countIpRange}
+                size={Math.round(pieWidth) - 10}
+              />
+            </Card>
+            <Card>
+              <Typography.Text style={{ fontWeight: "bold" }}>
+                Biểu đồ thống kê trạng thái phiên quét
+              </Typography.Text>
+              <SessionBarChart
+                data={sessions}
+                width={Math.round(pieWidth) - 10}
+              />
+            </Card>
+          </Flex>
         </Col>
       </Row>
     </ContentWrapper>

@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   countWithDateRange: [],
   countIpRange: [],
-  overview: [[]],
+  overview: [],
+  sessions: [],
 };
 
 const reducer = createSlice({
@@ -33,6 +34,14 @@ const reducer = createSlice({
     },
     getOverviewError: (state, action) => {
       state.overview = action.payload ? action.payload : state.overview;
+    },
+
+    getSessions: (state, action) => {},
+    getSessionsSuccess: (state, action) => {
+      state.sessions = action.payload.Data;
+    },
+    getSessionsError: (state, action) => {
+      state.sessions = action.payload ? action.payload : state.sessions;
     },
   },
 });

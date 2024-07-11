@@ -4,7 +4,7 @@ import {
   statisticByDateRange,
   statisticByIndentifyIpRange,
 } from "../../apis/ipRange.api";
-import { statisticOverview } from "../../apis/statistic.api";
+import { statisticOverview, statisticSessions } from "../../apis/statistic.api";
 
 function* _getCountIpRange({ payload }) {
   try {
@@ -52,6 +52,21 @@ function* _getOverview({ payload }) {
   }
 }
 
+function* _getSessions({ payload }) {
+  try {
+    let data, status;
+    ({ data, status } = yield call(statisticSessions, payload));
+
+    if (status === 200 || status === 201) {
+      yield put(statisticSlice.actions.getSessionsSuccess(data));
+    } else {
+      yield put(statisticSlice.actions.getSessionsError([]));
+    }
+  } catch (error) {
+    yield put(statisticSlice.actions.getSessionsError());
+  }
+}
+
 export default function* saga() {
   yield all([
     yield takeEvery(
@@ -63,5 +78,6 @@ export default function* saga() {
       _getCountWithDateRange
     ),
     yield takeEvery(statisticSlice.actions.getOverview().type, _getOverview),
+    yield takeEvery(statisticSlice.actions.getSessions().type, _getSessions),
   ]);
 }
