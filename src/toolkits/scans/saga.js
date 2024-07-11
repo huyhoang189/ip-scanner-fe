@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from "redux-saga/effects";
+import { all, call, put, takeEvery, select } from "redux-saga/effects";
 import scanSlice from "./slice";
 import { ACTION_NAME } from "../../utils/common";
 import {
@@ -11,13 +11,17 @@ import {
 
 function* _getBySessionId({ payload }) {
   try {
+    // const scanState = yield select((state) => state.scans);
+    // const { pageNumber } = scanState;
     const { data, status } = yield call(getBySessionId, payload);
+
     if (status === 200 || status === 201) {
       yield put(scanSlice.actions.getScanBySessionIDsSuccess(data));
     } else {
       yield put(scanSlice.actions.getScanBySessionIDsError([]));
     }
   } catch (error) {
+    console.log(error);
     yield put(scanSlice.actions.getScanBySessionIDsError([]));
   }
 }

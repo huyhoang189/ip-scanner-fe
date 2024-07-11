@@ -32,6 +32,7 @@ const CustomeTable = ({
         expandable={{ defaultExpandedRowKeys: ["0-0"] }}
         onRow={onRow}
         showHeader={showHeader}
+        rowSelection={rowSelection}
       />
     </Row>
   );

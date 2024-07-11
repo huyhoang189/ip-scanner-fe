@@ -13,7 +13,7 @@ const chartSetting = {
   },
 };
 export default function LineChart_v2({ data, width }) {
-  console.log(data);
+  // console.log(data);
   return (
     <LineChart
       width={width - 100}

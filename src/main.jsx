@@ -12,11 +12,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       token: {
         colorBgHome: "#d6d9dc",
         colorBgHeader: "#101720",
-        // borderRadius: 3,
+        borderRadius: 3,
         colorBorderSecondary: "#d6d9dc",
-        fontSize: 12,
+        fontSize: 11,
         colorPrimary: "#007bff",
-        fontFamily: `'Montserrat', sans-serif`,
       },
       components: {
         Table: {
@@ -30,7 +29,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           darkItemBg: "#101720",
           darkPopupBg: "#2b3d55",
           darkItemSelectedBg: "#2b3d55",
-          fontFamily: `'Montserrat', sans-serif`,
         },
         Button: {
           primaryShadow: "",

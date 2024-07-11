@@ -17,7 +17,7 @@ const baseColumns = [
     title: "Tên đơn vị",
     dataIndex: "Name",
     key: "Name",
-    width: "35%",
+    // width: "35%",
   },
 ];
 
@@ -28,6 +28,10 @@ const TreeView_2 = ({ treeData, onSelected }) => {
       columns={baseColumns}
       showHeader={false}
       pagination={false}
+      rowSelection={{
+        type: "radio",
+        onChange: onSelected,
+      }}
     />
   );
 };

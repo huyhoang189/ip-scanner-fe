@@ -201,7 +201,7 @@ const Session = () => {
       dispatch(
         sessionSlice.actions.getSessions({
           keyword,
-          pageSize: 20,
+          pageSize: 30,
           pageNumber: 1,
         })
       );

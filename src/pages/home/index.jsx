@@ -28,6 +28,7 @@ import StatisticView from "../../components/Statistic";
 import useResizeObserver from "../../hooks/useResizeObserver";
 import SimpleBarChart from "./chart/department.chart";
 import SessionBarChart from "./chart/sessions.chart";
+import Scanning from "./scanning";
 const pageHeader = {
   breadcrumb: [
     {
@@ -201,6 +202,12 @@ const Home = () => {
                 Biểu đồ phát hiện số lượng dải địa chỉ mới trong 30 ngày
               </Typography.Text>
               <LineChart data={lineData} width={Math.round(lineBarWidth)} />
+            </Card>
+            <Card ref={lineBarRef}>
+              <Typography.Text style={{ fontWeight: "bold" }}>
+                Các phiên quét đang được thực hiện
+              </Typography.Text>
+              <Scanning />
             </Card>
           </Flex>
         </Col>

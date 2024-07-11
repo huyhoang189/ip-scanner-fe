@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   scans: [],
+  scanLogs: [],
   scan: {
     ID: null,
     Command: "",
@@ -27,7 +28,7 @@ const initialState = {
   modalActive: false,
   count: 0,
   pageSize: 0,
-  pageNumber: 0,
+  pageNumber: 1,
 };
 
 const reducer = createSlice({

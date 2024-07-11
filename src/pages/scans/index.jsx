@@ -257,23 +257,22 @@ const ScanBySession = () => {
 
   //side effect
   useEffect(() => {
-    const fetchScans = () => {
-      dispatch(
-        scanSlice.actions.getScanBySessionIDs({
-          keyword,
-          pageSize: 25,
-          pageNumber: 1,
-          SessionID: session_id,
-          status: "SUCCESS",
-        })
-      );
-    };
+    // const fetchScans = () => {
+    dispatch(
+      scanSlice.actions.getScanBySessionIDs({
+        keyword,
+        pageSize: 25,
+        SessionID: session_id,
+        status: "SUCCESS",
+      })
+    );
+    // };
 
-    fetchScans(); // initial fetch
+    // fetchScans(); // initial fetch
 
-    intervalRef.current = setInterval(fetchScans, 5000); // fetch every 5 seconds
+    // intervalRef.current = setInterval(fetchScans, 5000); // fetch every 5 seconds
 
-    return () => clearInterval(intervalRef.current); // clean
+    // return () => clearInterval(intervalRef.current); // clean
   }, [dispatch, keyword]);
 
   return (
