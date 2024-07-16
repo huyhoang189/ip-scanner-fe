@@ -48,16 +48,19 @@ const baseColumns = [
     title: "Tên phiên quét",
     dataIndex: "Title",
     key: "Title",
+    align: "center",
   },
   {
     title: "Lệnh",
     dataIndex: "Command",
     key: "Command",
+    align: "center",
   },
   {
     title: "Chế độ quét",
     dataIndex: "Mode",
     key: "Mode",
+    align: "center",
     render: (text, record) => {
       return SCAN_MODE[text];
     },
@@ -71,6 +74,7 @@ const baseColumns = [
     title: "Trạng thái",
     dataIndex: "Status",
     key: "Status",
+    align: "center",
     render: (text, record) => {
       return record?.Status === "NOTHING" ? (
         <Tag color="red">Chưa quét</Tag>
@@ -86,6 +90,7 @@ const baseColumns = [
     title: "Thời gian kết thúc",
     dataIndex: "UpdatedAt",
     key: "UpdatedAt",
+    align: "center",
     render: (text, record) => {
       return convertTime(text);
     },

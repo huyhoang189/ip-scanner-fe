@@ -13,7 +13,7 @@ const Header = () => {
     <Flex
       style={{
         backgroundColor: token.colorBgHeader,
-        height: 50,
+        height: 60,
         width: "100%",
         padding: "0 10px",
       }}
@@ -25,7 +25,7 @@ const Header = () => {
         <Typography.Text
           style={{
             color: "#fff",
-            fontSize: 16,
+            fontSize: 19,
             fontWeight: "bold",
           }}
         >

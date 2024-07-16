@@ -8,9 +8,10 @@ function* _handleItem({ payload }) {
   try {
     const { actionName, item } = payload;
     let data, status;
+    // console.log(item);
 
     if (actionName === ACTION_NAME.IDENTIFY) {
-      ({ data, status } = yield call(identify, item));
+      ({ data, status } = yield call(identify, item?.data));
     }
 
     const isSuccess = status === 200 || status === 201;
@@ -28,11 +29,12 @@ function* _handleItem({ payload }) {
           pageNumber: payload?.pageNumber,
           keyword: payload?.keyword,
           pageSize: payload?.pageSize,
+          status: "SUCCESS",
         })
       );
     }
   } catch (error) {
-    yield put(identifySlice.actions.handleIpRangeError());
+    yield put(identifySlice.actions.identifyIpRangeError());
   }
 }
 

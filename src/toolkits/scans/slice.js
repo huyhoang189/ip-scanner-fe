@@ -29,6 +29,9 @@ const initialState = {
   count: 0,
   pageSize: 0,
   pageNumber: 1,
+  filterOption: {
+    IdentifyStatus: "TOTAL_RECORD",
+  },
 };
 
 const reducer = createSlice({
@@ -77,6 +80,9 @@ const reducer = createSlice({
     getScanLogBySessionIDsError: (state, action) => {
       state.errorMessage = "Error";
       state.scanLogs = action.payload ? action.payload : state.scanLogs;
+    },
+    updateFiterOptionScanInput: (state, action) => {
+      state.filterOption = action.payload;
     },
   },
 });

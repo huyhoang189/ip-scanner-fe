@@ -1,8 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  ipRange: {},
-  selectedIpRange: {},
+  identify: {
+    IpRanges: [],
+    DepartmentID: null,
+    SessionID: null,
+  },
+  selectedIdentify: {
+    IpRanges: [],
+    DepartmentID: null,
+    SessionID: null,
+  },
   isLoading: false,
   modalActive: false,
   errorMessage: false,
@@ -13,18 +21,20 @@ const reducer = createSlice({
   initialState,
   reducers: {
     toggleModal: (state, action) => {
+      console.log(action.payload);
       state.modalActive = !state.modalActive;
-      state.selectedIpRange =
-        action.payload !== null ? action.payload : initialState.ipRange;
+      state.selectedIdentify =
+        action.payload !== null ? action.payload : initialState.identify;
     },
     identifyIpRange: (state, action) => {},
     identifyIpRangeSuccess: (state, action) => {
       state.modalActive = false;
       state.errorMessage = false;
+      state.selectedIdentify = initialState.identify;
     },
     identifyIpRangeError: (state, action) => {},
-    updateSelectedIpRangeInput: (state, action) => {
-      state.selectedIpRange = action.payload;
+    updateSelectedIdentyfiInput: (state, action) => {
+      state.selectedIdentify = action.payload;
     },
   },
 });

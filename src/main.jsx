@@ -12,17 +12,18 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       token: {
         colorBgHome: "#d6d9dc",
         colorBgHeader: "#101720",
+        colorText: "#2b3d55",
+        colorBorder: "#2b3d55",
         borderRadius: 3,
         colorBorderSecondary: "#d6d9dc",
-        fontSize: 11,
+        fontSize: 14,
         colorPrimary: "#007bff",
       },
       components: {
         Table: {
-          // headerBg: "#1e1e1e",
           rowHoverBg: "#f9f9f9",
-          // colorText: "#d6d9dc",
-          // colorBgBase: "#1e1e1e",
+          borderColor: "#2b3d55",
+          fontSize: 13,
         },
         Tree: {},
         Menu: {
@@ -33,6 +34,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         Button: {
           primaryShadow: "",
         },
+        // Card: {
+        //   borderColor: "#2b3d55",
+        // },
       },
     }}
   >

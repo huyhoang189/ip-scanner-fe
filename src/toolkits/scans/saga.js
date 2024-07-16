@@ -11,9 +11,12 @@ import {
 
 function* _getBySessionId({ payload }) {
   try {
-    // const scanState = yield select((state) => state.scans);
-    // const { pageNumber } = scanState;
-    const { data, status } = yield call(getBySessionId, payload);
+    const scanState = yield select((state) => state.scans);
+    const { filterOption } = scanState;
+    const { data, status } = yield call(getBySessionId, {
+      ...payload,
+      filterOption,
+    });
 
     if (status === 200 || status === 201) {
       yield put(scanSlice.actions.getScanBySessionIDsSuccess(data));

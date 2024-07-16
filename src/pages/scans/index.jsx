@@ -13,12 +13,13 @@ import {
   DetailButton,
   UpdateButton,
 } from "../../components/Button";
-import { Card, Space, Tag, Typography } from "antd";
+import { Card, Flex, Popover, Radio, Space, Tag, Typography } from "antd";
 import ModalItem from "./log.modal";
 import IdentifyModalItem from "../identifies/modal";
 import { useParams } from "react-router-dom";
 import {
   FileExcelOutlined,
+  FilterFilled,
   LoadingOutlined,
   SyncOutlined,
   WarningOutlined,
@@ -27,6 +28,7 @@ import { convertTime } from "../../utils/time";
 import { exportFileExcel } from "../../apis/scan.api";
 import { saveAs } from "file-saver";
 import axios from "axios";
+import SelectInput from "../../components/Form/selectinput";
 
 const { Text } = Typography;
 
@@ -57,12 +59,14 @@ const baseColumns = [
     title: "Dải IP",
     dataIndex: "Command",
     key: "Command",
+    align: "center",
   },
 
   {
     title: "Định danh",
     dataIndex: "Identified",
     key: "Identified",
+    align: "center",
     render: (text, record) => {
       // console.log(record?.Ips, record?.Ips?.length, record?.Ips.isArray);
       return record?.Identified === "IDENTIFIED" ? (
@@ -76,7 +80,7 @@ const baseColumns = [
     title: "Trạng thái quét",
     dataIndex: "Status",
     key: "Status",
-
+    align: "center",
     render: (text, record) => {
       return record?.Status === "NOTHING" ? (
         <Tag color="red">Chưa quét</Tag>
@@ -94,6 +98,7 @@ const baseColumns = [
     title: "Thời gian hoàn thành",
     dataIndex: "UpdatedAt",
     key: "UpdatedAt",
+    align: "center",
     render: (text, record) => {
       return (record?.Status === "SUCCESS") | (record?.Status === "NOTFOUND")
         ? convertTime(record?.UpdatedAt)
@@ -124,13 +129,22 @@ const ScanBySession = () => {
   const intervalRef = useRef();
   const { session_id } = params;
 
-  const { scans, isLoading, count, pageNumber, pageSize } = useSelector(
-    (state) => state.scans
-  );
+  const { scans, isLoading, count, pageNumber, pageSize, filterOption } =
+    useSelector((state) => state.scans);
+  const { selectedIdentify } = useSelector((state) => state?.identifies);
+
   const [keyword, setKeyword] = useState("");
 
   const onChangeKeywordInput = (key, event) => {
     setKeyword(event.target.value);
+  };
+
+  const onChangeFilterOptionScan = (key, event) => {
+    if (key) {
+      let clone = Object.assign({}, filterOption);
+      clone[key] = event;
+      dispatch(scanSlice.actions.updateFiterOptionScanInput(clone));
+    }
   };
 
   const handlePaginationChange = (current, pageSize) => {
@@ -140,6 +154,7 @@ const ScanBySession = () => {
         pageSize: pageSize,
         pageNumber: current,
         SessionID: session_id,
+        status: "SUCCESS",
       })
     );
   };
@@ -148,91 +163,7 @@ const ScanBySession = () => {
     dispatch(scanSlice.actions.toggleModal(_item));
   };
 
-  const columns = [
-    ...baseColumns,
-    {
-      title: "Công cụ",
-      key: "tool",
-      align: "center",
-      width: 140,
-      render: (text, record) => (
-        <Space
-          direction="horizontal"
-          style={{ width: "100%", justifyContent: "center" }}
-        >
-          <UpdateButton
-            disabled={
-              record?.Identified === "IDENTIFIED" ||
-              record?.Status === "NOTFOUND"
-                ? true
-                : false
-            }
-            title="Định danh"
-            name="Định danh"
-            onClick={() => {
-              dispatch(
-                identifySlice.actions.toggleModal({
-                  ...record,
-                  SessionID: session_id,
-                })
-              );
-            }}
-            icon={<WarningOutlined />}
-          />
-
-          {/* <UpdateButton
-            icon={
-              record?.Status === "SCANNING" ? (
-                <LoadingOutlined />
-              ) : (
-                <SyncOutlined />
-              )
-            }
-            title="Quét"
-            name="Quét"
-            onClick={() => {
-              dispatch(
-                scanSlice.actions.handleScan({
-                  item: record,
-                  actionName: "EXECUTE",
-                  SessionID: session_id,
-                })
-              );
-            }}
-          /> */}
-          <DeleteButton
-            onConfirm={() => {
-              dispatch(
-                scanSlice.actions.handleScan({
-                  item: record,
-                  actionName: "DELETE",
-                  pageSize: pageSize,
-                  pageNumber:
-                    record?.key === pageSize * (pageNumber - 1) + 1
-                      ? Math.max(pageNumber - 1, 1)
-                      : pageNumber,
-                  SessionID: session_id,
-                })
-              );
-            }}
-          />
-        </Space>
-      ),
-    },
-  ];
-
   const exportFile = async (sessionId) => {
-    // const data = await exportFileExcel({ ID: sessionId });
-
-    // if (data) {
-    //   // Create a Blob from the response
-    //   const blob = new Blob([data], {
-    //     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    //   });
-
-    //   // Use FileSaver to save the file
-    //   saveAs(blob, "export.xlsx");
-    // }
     try {
       const response = await axios.get(
         `${
@@ -255,6 +186,51 @@ const ScanBySession = () => {
     }
   };
 
+  const rowSelection = {
+    selectedRowKeys: selectedIdentify?.IpRanges,
+    onChange: (selectedRowKeys) => {
+      let clone = Object.assign({}, selectedIdentify);
+      clone["IpRanges"] = selectedRowKeys;
+      dispatch(identifySlice.actions.updateSelectedIdentyfiInput(clone));
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.Identified === "IDENTIFIED",
+      // Column configuration not to be checked
+      name: record.Identified,
+    }),
+  };
+  const columns = [
+    ...baseColumns,
+    {
+      title: "Công cụ",
+      key: "tool",
+      align: "center",
+      width: 140,
+      render: (text, record) => (
+        <Space
+          direction="horizontal"
+          style={{ width: "100%", justifyContent: "center" }}
+        >
+          <DeleteButton
+            onConfirm={() => {
+              dispatch(
+                scanSlice.actions.handleScan({
+                  item: record,
+                  actionName: "DELETE",
+                  pageSize: pageSize,
+                  pageNumber:
+                    record?.key === pageSize * (pageNumber - 1) + 1
+                      ? Math.max(pageNumber - 1, 1)
+                      : pageNumber,
+                  SessionID: session_id,
+                })
+              );
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
   //side effect
   useEffect(() => {
     // const fetchScans = () => {
@@ -267,13 +243,7 @@ const ScanBySession = () => {
       })
     );
     // };
-
-    // fetchScans(); // initial fetch
-
-    // intervalRef.current = setInterval(fetchScans, 5000); // fetch every 5 seconds
-
-    // return () => clearInterval(intervalRef.current); // clean
-  }, [dispatch, keyword]);
+  }, [dispatch, keyword, filterOption]);
 
   return (
     <ContentWrapper>
@@ -282,13 +252,45 @@ const ScanBySession = () => {
         <CustomeTable
           header={
             <Header>
-              <TextInput
-                placeholder={"Nhập vào từ khoá tìm kiếm"}
-                onChange={onChangeKeywordInput}
-                property={"keyword"}
-                width={20}
-              />
+              <Space style={{ width: "100%" }}>
+                <div style={{ width: 220 }}>
+                  <TextInput
+                    placeholder={"Nhập vào từ khoá tìm kiếm"}
+                    onChange={onChangeKeywordInput}
+                    property={"keyword"}
+                  />
+                </div>
+
+                <div style={{ marginLeft: 10, width: 220 }}>
+                  <SelectInput
+                    options={[
+                      { value: "IDENTIFIED", label: "Đã định danh" },
+                      { value: "UNIDENTIFIED", label: "Chưa định danh" },
+                      { value: "TOTAL_RECORD", label: "Tất cả" },
+                    ]}
+                    value={filterOption?.IdentifyStatus}
+                    property={"IdentifyStatus"}
+                    onChange={onChangeFilterOptionScan}
+                  />
+                </div>
+              </Space>
+
               <Space>
+                {selectedIdentify?.IpRanges?.length > 0 && (
+                  <CreateButton
+                    onClick={() => {
+                      dispatch(
+                        identifySlice.actions.toggleModal({
+                          ...selectedIdentify,
+                          SessionID: session_id,
+                        })
+                      );
+                    }}
+                    text="Định Danh"
+                    icon={<WarningOutlined />}
+                  />
+                )}
+
                 <DetailButton
                   onClick={() => handleModal(null)}
                   title="Chi tiết phiên quét"
@@ -314,6 +316,10 @@ const ScanBySession = () => {
             pageSize: pageSize,
             total: count,
             onChange: handlePaginationChange,
+          }}
+          rowSelection={{
+            type: "checkbox",
+            ...rowSelection,
           }}
         />
 

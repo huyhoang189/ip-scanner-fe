@@ -13,4 +13,8 @@ export const ContentWrapper = styled("div")`
   .ant-table-container > .ant-table-content > table > thead > tr > th {
     text-align: center;
   }
+
+  .ant-card-bordered {
+    border: 1px solid #2b3d55;
+  }
 `;

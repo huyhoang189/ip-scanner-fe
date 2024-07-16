@@ -8,7 +8,9 @@ export const getBySessionId = (payload) => {
       payload?.pageSize || 10
     }&pageNumber=${payload?.pageNumber || 1}&filter=${
       payload?.keyword || ""
-    }&status=${payload?.status || ""}`,
+    }&status=${payload?.status || ""}&identifyStatus=${
+      payload?.filterOption?.IdentifyStatus || "TOTAL_RECORD"
+    }`,
     method: "GET",
   });
 };
@@ -39,7 +41,7 @@ export const executeAll = (payload) => {
 
 export const identify = (payload) => {
   return api.makeRequest({
-    url: `/scans/identify/${payload?.ID}`,
+    url: `/scans/identifies/${payload?.ID}`,
     method: "PUT",
     data: payload,
   });
