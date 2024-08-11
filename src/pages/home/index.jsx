@@ -157,6 +157,23 @@ const Home = () => {
             // description: "Tăng so với tháng trước",
           },
           {
+            title: "Dải địa chỉ IP đã được định danh",
+            count: countIpRange?.IpRangeCount,
+            icon: (
+              <GlobalOutlined
+                style={{
+                  fontSize: "30px",
+                  color: "#fff",
+                  margin: "0 10px 0 0",
+                  backgroundColor: "#36BA98",
+                  padding: 10,
+                  borderRadius: 10,
+                }}
+              />
+            ),
+            // description: "Tăng so với tháng trước",
+          },
+          {
             title: "Dải địa chỉ IP chưa được định danh",
             count: overview?.StrangeIpRangeCount,
             icon: (

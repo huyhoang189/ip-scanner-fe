@@ -112,8 +112,8 @@ const ModalItem = () => {
         property={"IsCategory"}
         value={selectedDepartment?.IsCategory}
         options={[
-          { label: "Danh mục", value: false },
-          { label: "Đơn vị", value: true },
+          { label: "Danh mục", value: true },
+          { label: "Đơn vị", value: false },
         ]}
       />
       <TreeInput

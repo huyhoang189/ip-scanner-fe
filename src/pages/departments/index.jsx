@@ -64,6 +64,16 @@ const baseColumns = [
     align: "center",
     // width: 50,
   },
+  {
+    title: "Loại",
+    dataIndex: "IsCategory",
+    key: "IsCategory",
+    align: "center",
+    render: (text, _) => {
+      return text ? "Danh mục" : "Đơn vị";
+    },
+    // width: 50,
+  },
 ];
 
 const Department = () => {
@@ -183,7 +193,7 @@ const Department = () => {
           }}
         />
 
-        <ModalItem />
+        {/* <ModalItem /> */}
         <ModalItem />
       </Card>
     </ContentWrapper>
