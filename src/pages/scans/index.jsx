@@ -199,6 +199,7 @@ const ScanBySession = () => {
       name: record.Identified,
     }),
   };
+
   const columns = [
     ...baseColumns,
     {
@@ -248,7 +249,7 @@ const ScanBySession = () => {
   return (
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
-      <Card>
+      <PageBodyWrapper>
         <CustomeTable
           header={
             <Header>
@@ -325,7 +326,7 @@ const ScanBySession = () => {
 
         <ModalItem />
         <IdentifyModalItem />
-      </Card>
+      </PageBodyWrapper>
     </ContentWrapper>
   );
 };

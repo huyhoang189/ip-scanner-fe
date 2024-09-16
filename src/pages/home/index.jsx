@@ -26,8 +26,8 @@ import {
 } from "@ant-design/icons";
 import StatisticView from "../../components/Statistic";
 import useResizeObserver from "../../hooks/useResizeObserver";
-import SimpleBarChart from "./chart/department.chart";
-import SessionBarChart from "./chart/sessions.chart";
+// import SimpleBarChart from "./chart/department.chart";
+// import SessionBarChart from "./chart/sessions.chart";
 import Scanning from "./scanning";
 const pageHeader = {
   breadcrumb: [
@@ -102,15 +102,17 @@ const Home = () => {
       const { dates } = time;
       let data = dates.map((e) => ({
         date: e,
-        count: countWithDateRange[e] | 0,
+        count: countWithDateRange[e] || 0,
       }));
 
       data.map((e, i) => {
         if (i === 0)
           data[i].count =
-            parseInt(data[i].count) + parseInt(countWithDateRange["SrcCount"]);
+            parseInt(data[i].count) +
+              parseInt(countWithDateRange["SrcCount"]) || 0;
         else
-          data[i].count = parseInt(data[i].count) + parseInt(data[i - 1].count);
+          data[i].count =
+            parseInt(data[i].count) + parseInt(data[i - 1].count) || 0;
       });
 
       setLineData(data);
@@ -209,7 +211,6 @@ const Home = () => {
           },
         ]}
       />
-      {/* <Divider style={{ marginTop: 10, marginBottom: 10 }} /> */}
 
       <Row gutter={16} style={{ marginBottom: 10 }}>
         <Col span={18}>
@@ -243,10 +244,10 @@ const Home = () => {
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Biểu đồ thống kê trạng thái phiên quét
               </Typography.Text>
-              <SessionBarChart
+              {/* <SessionBarChart
                 data={sessions}
                 width={Math.round(pieWidth) - 10}
-              />
+              /> */}
             </Card>
           </Flex>
         </Col>

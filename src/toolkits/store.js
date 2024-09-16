@@ -9,6 +9,7 @@ import ipRangeSlice from "./ipRanges/slice";
 import identifySlice from "./identifies/slice";
 import statisticSlice from "./statistics/slice";
 import curatorSlice from "./curators/slice";
+import appSlice from "./App/slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,6 +22,7 @@ export const store = configureStore({
     identifies: identifySlice.reducer,
     statistics: statisticSlice.reducer,
     curators: curatorSlice.reducer,
+    apps: appSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

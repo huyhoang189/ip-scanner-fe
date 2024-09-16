@@ -1,3 +1,10 @@
+import {
+  CloudServerOutlined,
+  FileDoneOutlined,
+  HomeOutlined,
+  ScanOutlined,
+} from "@ant-design/icons";
+
 export const ACTION_NAME = {
   UPDATE: "UPDATE",
   CREATE: "CREATE",

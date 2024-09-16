@@ -36,6 +36,14 @@ export const update = (payload) => {
   });
 };
 
+export const updateDepartmentIdForIpRanges = (payload) => {
+  return api.makeRequest({
+    url: `/ip-ranges/update-department-for-list-ip-range`,
+    method: "PUT",
+    data: payload,
+  });
+};
+
 export const deleteItem = (payload) => {
   return api.makeRequest({
     url: `/ip-ranges/${payload?.ID}`,

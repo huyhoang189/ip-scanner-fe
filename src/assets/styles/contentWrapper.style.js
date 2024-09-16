@@ -15,6 +15,6 @@ export const ContentWrapper = styled("div")`
   }
 
   .ant-card-bordered {
-    border: 1px solid #2b3d55;
+    // border: 1px solid #2b3d55;
   }
 `;

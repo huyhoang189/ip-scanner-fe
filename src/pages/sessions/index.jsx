@@ -23,6 +23,7 @@ import {
   PlaySquareOutlined,
 } from "@ant-design/icons";
 import { convertTime } from "../../utils/time";
+import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
 
 const pageHeader = {
   breadcrumb: [
@@ -223,7 +224,7 @@ const Session = () => {
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
 
-      <Card>
+      <PageBodyWrapper>
         <CustomeTable
           header={
             <Header>
@@ -248,7 +249,7 @@ const Session = () => {
         />
 
         <ModalItem />
-      </Card>
+      </PageBodyWrapper>
     </ContentWrapper>
   );
 };

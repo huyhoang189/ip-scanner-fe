@@ -23,6 +23,7 @@ const initialState = {
   errorMessage: false,
   isLoading: false,
   modalActive: false,
+  modalUpdateActive: false,
   count: 0,
   pageSize: 0,
   pageNumber: 0,
@@ -37,6 +38,9 @@ const reducer = createSlice({
       state.modalActive = !state.modalActive;
       state.selectedIpRange =
         action.payload !== null ? action.payload : initialState.ipRange;
+    },
+    toggleModalUpdate: (state, action) => {
+      state.modalUpdateActive = !state.modalUpdateActive;
     },
     getIpRanges: (state, action) => {
       state.errorMessage = false;
@@ -56,8 +60,10 @@ const reducer = createSlice({
       state.isLoading = false;
     },
     handleIpRange: (state, action) => {},
+    updateDepartmentIdForIpRanges: (state, action) => {},
     handleIpRangeSuccess: (state, action) => {
       state.modalActive = false;
+      state.modalUpdateActive = false;
       state.errorMessage = false;
       state.selectedIpRange = action.payload;
     },
@@ -67,6 +73,7 @@ const reducer = createSlice({
     },
     updateDepartmentNodeSelected: (state, action) => {
       state.departmentNodeSelected = action.payload;
+      state.selectedIpRange = initialState.ipRange;
     },
   },
 });

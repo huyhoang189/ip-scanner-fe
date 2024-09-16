@@ -11,6 +11,7 @@ const SelectInput = ({
   size = 0,
   width = 100,
   options = [],
+  mode = null,
 }) => {
   return (
     <Space
@@ -23,6 +24,7 @@ const SelectInput = ({
         {isNull === false ? <span style={{ color: "red" }}>(*)</span> : ""}
       </Typography.Text>
       <Select
+        {...(mode && { mode: mode })}
         value={value}
         onChange={(e) => onChange(property, e)}
         style={{ width: "100%" }}

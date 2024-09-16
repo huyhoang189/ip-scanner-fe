@@ -2,6 +2,7 @@ import { Layout, theme, Menu } from "antd";
 import Header from "./header";
 import { Outlet } from "react-router-dom";
 import useWindowSize from "../hooks/useWindowSize";
+import Siderbar from "./sidebar";
 
 const { Content, Footer } = Layout;
 const MainLayout = () => {
@@ -11,24 +12,22 @@ const MainLayout = () => {
     <Layout
       style={{
         margin: 0,
-        // minHeight: 600,
-        minHeight: height - 5,
-        backgroundColor: token.colorBgHome,
+        minHeight: height,
+        backgroundColor: token.colorBgBase,
       }}
     >
       <Header />
-      <Content
-        style={{
-          // margin: 10,
-          padding: 10,
-          // background: "#FFFFFF",
-          minHeight: "calc(100% - 60px - 70px)",
-          // border: `solid 1px ${token.colorBorder}`,
-          // borderRadius: 3,
-        }}
-      >
-        <Outlet />
-      </Content>
+      <Layout>
+        <Siderbar />
+        <Content
+          style={{
+            padding: 10,
+            width: "100%",
+          }}
+        >
+          <Outlet />
+        </Content>
+      </Layout>
       <Footer
         style={{
           textAlign: "center",

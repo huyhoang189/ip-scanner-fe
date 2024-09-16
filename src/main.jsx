@@ -10,33 +10,41 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <ConfigProvider
     theme={{
       token: {
-        colorBgHome: "#d6d9dc",
-        colorBgHeader: "#101720",
-        colorText: "#2b3d55",
-        colorBorder: "#2b3d55",
-        borderRadius: 3,
+        colorBgBase: "#fff",
+        colorBgHeader: "#006666",
+        borderRadius: 2,
         colorBorderSecondary: "#d6d9dc",
+        colorBorder: "#d6d9dc",
         fontSize: 14,
-        colorPrimary: "#007bff",
+        colorPrimary: "#008080",
       },
       components: {
         Table: {
-          rowHoverBg: "#f9f9f9",
-          borderColor: "#2b3d55",
-          fontSize: 13,
-        },
-        Tree: {},
-        Menu: {
-          darkItemBg: "#101720",
-          darkPopupBg: "#2b3d55",
-          darkItemSelectedBg: "#2b3d55",
+          rowHoverBg: "#fff",
+          borderColor: "#d6d9dc",
+          headerBg: "#008080",
+          headerColor: "#fff",
         },
         Button: {
           primaryShadow: "",
         },
-        // Card: {
-        //   borderColor: "#2b3d55",
-        // },
+        Modal: {
+          contentBg: "#fff",
+          headerBg: "#fff",
+        },
+        Statistic: {},
+        Menu: {
+          darkItemBg: "#006666",
+          darkSubMenuItemBg: "#006666",
+          darkItemColor: "#fff",
+          darkItemHoverBg: "#009999",
+          darkItemSelectedBg: "#008080",
+          itemSelectedBg: "#009999",
+          darkPopupBg: "#008080",
+        },
+        Divider: {
+          colorBgBase: "#d6d9dc",
+        },
       },
     }}
   >

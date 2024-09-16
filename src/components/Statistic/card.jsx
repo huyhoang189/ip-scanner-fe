@@ -6,6 +6,7 @@ const CardView = ({ item, width }) => {
     <Card
       style={{
         width: `${width}%`,
+        height: 100,
 
         // backgroundColor: "#FF8042",
       }}

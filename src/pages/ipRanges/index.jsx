@@ -14,9 +14,12 @@ import {
 } from "../../components/Button";
 import { Card, Col, Row, Space, Tag } from "antd";
 import ModalItem from "./modal";
+import ModalUpdateItem from "./multi.modal";
 import { generateTreesOnlyKey, getNodeByKey } from "../../utils/tree";
 import TreeView from "../../components/TreeView";
 import { convertTime } from "../../utils/time";
+import { DoubleRightOutlined, SwapRightOutlined } from "@ant-design/icons";
+import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
 const pageHeader = {
   breadcrumb: [
     {
@@ -74,12 +77,14 @@ const IpRange = () => {
     pageSize,
     departmentNodeSelected,
     modalActive,
+    modalUpdateActive,
   } = useSelector((state) => state.ipRanges);
   const { departmentTrees } = useSelector((state) => state.departments);
 
   // const [departmentNodeSelected, setSelectedNode] = useState({});
   const [keyword, setKeyword] = useState("");
   const [trees, setTrees] = useState([]);
+  const [selectedIpRanges, setSelectedIpRanges] = useState([]);
 
   const onChangeKeywordInput = (key, event) => {
     setKeyword(event.target.value);
@@ -104,6 +109,13 @@ const IpRange = () => {
       const node = getNodeByKey(trees, e[0]);
       dispatch(ipRangeSlice.actions.updateDepartmentNodeSelected(node));
     }
+  };
+
+  const rowSelection = {
+    selectedRowKeys: selectedIpRanges,
+    onChange: (selectedRowKeys) => {
+      setSelectedIpRanges(selectedRowKeys);
+    },
   };
 
   const columns = [
@@ -141,7 +153,7 @@ const IpRange = () => {
 
   //side effect
   useEffect(() => {
-    if (departmentTrees) {
+    if (!modalActive && !modalUpdateActive && departmentTrees) {
       dispatch(
         ipRangeSlice.actions.getIpRanges({
           keyword,
@@ -150,8 +162,9 @@ const IpRange = () => {
           departmentId: departmentNodeSelected?.value,
         })
       );
+      setSelectedIpRanges([]);
     }
-  }, [departmentNodeSelected, keyword]);
+  }, [departmentNodeSelected, keyword, modalActive, modalUpdateActive]);
 
   useEffect(() => {
     if (trees && !departmentNodeSelected?.ID) {
@@ -176,10 +189,16 @@ const IpRange = () => {
     }
   }, [departmentTrees]);
 
+  // useEffect(() => {
+  //   if (modalActive == false) {
+  //     setSelectedIpRanges([]);
+  //   }
+  // }, [modalActive]);
+
   return (
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
-      <Card>
+      <PageBodyWrapper>
         <Row gutter={16}>
           <Col span={8}>
             <TreeView treeData={trees ? trees : []} onSelected={onSelected} />
@@ -194,7 +213,18 @@ const IpRange = () => {
                     property={"keyword"}
                     width={20}
                   />
-                  <CreateButton onClick={() => handleModal(null)} />
+                  <Space>
+                    {selectedIpRanges.length > 0 && (
+                      <CreateButton
+                        icon={<DoubleRightOutlined />}
+                        text="Cập nhật đơn vị"
+                        onClick={() =>
+                          dispatch(ipRangeSlice.actions.toggleModalUpdate())
+                        }
+                      />
+                    )}
+                    <CreateButton onClick={() => handleModal(null)} />
+                  </Space>
                 </Header>
               }
               data={ipRanges}
@@ -206,12 +236,17 @@ const IpRange = () => {
                 total: count,
                 onChange: handlePaginationChange,
               }}
+              rowSelection={{
+                type: "checkbox",
+                ...rowSelection,
+              }}
             />
           </Col>
         </Row>
 
         <ModalItem />
-      </Card>
+        <ModalUpdateItem selectedIpRanges={selectedIpRanges} />
+      </PageBodyWrapper>
     </ContentWrapper>
   );
 };

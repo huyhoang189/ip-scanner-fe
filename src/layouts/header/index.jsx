@@ -1,6 +1,7 @@
 import { Flex, Image, Menu, Space, theme, Typography } from "antd";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { HeaderWrapper } from "./style";
 const Header = () => {
   const { token } = theme.useToken();
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Header = () => {
   };
 
   return (
-    <Flex
+    <HeaderWrapper
       style={{
         backgroundColor: token.colorBgHeader,
         height: 60,
@@ -32,7 +33,7 @@ const Header = () => {
           HỆ THỐNG GIÁM SÁT IP TRÊN ĐỊA BÀN
         </Typography.Text>
       </Space>
-      <Space>
+      {/* <Space>
         <Menu
           selectedKeys={window.location.pathname.split("/")[1]}
           onClick={onClickSelectItem}
@@ -57,6 +58,28 @@ const Header = () => {
             {
               key: "statistics",
               label: "Thống kê, báo cáo",
+              children: [
+                {
+                  key: "department",
+                  label: "Thống kê danh mục đơn vị",
+                },
+                {
+                  key: "ipranges",
+                  label: "Thống kê dải địa chỉ IP",
+                },
+                {
+                  key: "iprange-identified",
+                  label: "Thống kê dải IP đã định danh",
+                },
+                {
+                  key: "iprange-unidentified",
+                  label: "Thống kê dải IP chưa định danh",
+                },
+                {
+                  key: "sessions",
+                  label: "Thống kê nhật ký phiên quét",
+                },
+              ],
             },
 
             {
@@ -75,8 +98,8 @@ const Header = () => {
             },
           ]}
         />
-      </Space>
-    </Flex>
+      </Space> */}
+    </HeaderWrapper>
   );
 };
 

@@ -7,6 +7,7 @@ import {
   create,
   update,
   getAllByDepartmentId,
+  updateDepartmentIdForIpRanges,
 } from "../../apis/ipRange.api";
 
 function* _getAll({ payload }) {
@@ -60,9 +61,35 @@ function* _handleItem({ payload }) {
   }
 }
 
+function* _handleUpdateIpRangess({ payload }) {
+  try {
+    const { item } = payload;
+    let data, status;
+    ({ data, status } = yield call(updateDepartmentIdForIpRanges, item));
+
+    const isSuccess = status === 200 || status === 201;
+
+    yield put(
+      isSuccess
+        ? ipRangeSlice.actions.handleIpRangeSuccess()
+        : ipRangeSlice.actions.handleIpRangeError([])
+    );
+
+    if (isSuccess) {
+      yield put(ipRangeSlice.actions.getIpRanges(payload));
+    }
+  } catch (error) {
+    yield put(ipRangeSlice.actions.handleIpRangeError());
+  }
+}
+
 export default function* saga() {
   yield all([
     yield takeEvery(ipRangeSlice.actions.getIpRanges().type, _getAll),
     yield takeEvery(ipRangeSlice.actions.handleIpRange().type, _handleItem),
+    yield takeEvery(
+      ipRangeSlice.actions.updateDepartmentIdForIpRanges().type,
+      _handleUpdateIpRangess
+    ),
   ]);
 }
