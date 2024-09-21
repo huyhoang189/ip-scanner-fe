@@ -14,6 +14,7 @@ const Header = () => {
     <HeaderWrapper
       style={{
         backgroundColor: token.colorBgHeader,
+
         height: 60,
         width: "100%",
         padding: "0 10px",

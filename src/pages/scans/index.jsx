@@ -29,6 +29,7 @@ import { exportFileExcel } from "../../apis/scan.api";
 import { saveAs } from "file-saver";
 import axios from "axios";
 import SelectInput from "../../components/Form/selectinput";
+import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
 
 const { Text } = Typography;
 

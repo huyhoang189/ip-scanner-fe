@@ -7,6 +7,8 @@ import IpRange from "../pages/ipRanges";
 import Session from "../pages/sessions";
 import ScanBySession from "../pages/scans";
 import Curator from "../pages/curators";
+import ReportIpRange from "../pages/reports/ipRanges";
+import ReportSession from "../pages/reports/sessions";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -30,16 +32,42 @@ export const router = createBrowserRouter([
         path: "ipranges",
         element: <IpRange />,
       },
+      {
+        path: "reports",
+        children: [
+          {
+            path: "reports-ipranges",
+            element: <ReportIpRange />,
+          },
+          {
+            path: "reports-ipranges/:type",
+            element: <ReportIpRange />,
+          },
+          {
+            path: "reports-sessions",
+            element: <ReportSession />,
+          },
+        ],
+      },
+
+      // {
+      //   path: "reports-ipranges",
+      //   element: <ReportIpRange />,
+      // },
+      // {
+      //   path: "reports-ipranges/:type",
+      //   element: <ReportIpRange />,
+      // },
 
       {
         path: "systems",
         children: [
           {
-            path: "departments",
+            path: "systems-departments",
             element: <Department />,
           },
           {
-            path: "departments/:id",
+            path: "systems-departments/:id",
             element: <Curator />,
           },
         ],

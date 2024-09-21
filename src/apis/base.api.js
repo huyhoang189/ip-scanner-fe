@@ -50,6 +50,8 @@ const _makeRequest = (createRequest) => async (args) => {
     },
     body,
   };
+  console.log(args);
+
   try {
     const { data, status } = await createRequest(args);
     return { data, status };

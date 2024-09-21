@@ -10,6 +10,7 @@ import identifySlice from "./identifies/slice";
 import statisticSlice from "./statistics/slice";
 import curatorSlice from "./curators/slice";
 import appSlice from "./App/slice";
+import reportSlice from "./reports/slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,6 +24,7 @@ export const store = configureStore({
     statistics: statisticSlice.reducer,
     curators: curatorSlice.reducer,
     apps: appSlice.reducer,
+    reports: reportSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

@@ -185,12 +185,7 @@ const Department = () => {
           data={trees}
           columns={columns}
           isLoading={isLoading}
-          pagination={{
-            current: pageNumber,
-            pageSize: pageSize,
-            total: count,
-            onChange: handlePaginationChange,
-          }}
+          pagination={false}
         />
 
         {/* <ModalItem /> */}

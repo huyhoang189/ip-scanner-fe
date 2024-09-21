@@ -33,7 +33,7 @@ const publicRouter = [
     icon: <CloudServerOutlined />,
   },
   {
-    key: "statistics",
+    key: "reports",
     label: "Thống kê, báo cáo",
     icon: <FileDoneOutlined />,
     children: [
@@ -42,19 +42,19 @@ const publicRouter = [
         label: "Thống kê danh mục đơn vị",
       },
       {
-        key: "statistics-ipranges",
+        key: "reports-ipranges",
         label: "Thống kê dải địa chỉ IP",
       },
       {
-        key: "statistics-iprange-identified",
+        key: "reports-ipranges/IDENTIFIED",
         label: "Thống kê dải IP đã định danh",
       },
       {
-        key: "statistics-iprange-unidentified",
+        key: "reports-ipranges/UNIDENTIFIED",
         label: "Thống kê dải IP chưa định danh",
       },
       {
-        key: "statistics-sessions",
+        key: "reports-sessions",
         label: "Thống kê nhật ký phiên quét",
       },
     ],

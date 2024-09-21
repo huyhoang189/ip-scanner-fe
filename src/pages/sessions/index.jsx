@@ -66,11 +66,7 @@ const baseColumns = [
       return SCAN_MODE[text];
     },
   },
-  {
-    title: "Ghi chú",
-    dataIndex: "Description",
-    key: "Description",
-  },
+
   {
     title: "Trạng thái",
     dataIndex: "Status",
