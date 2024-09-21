@@ -9,6 +9,15 @@ export const getAll = (payload) => {
   });
 };
 
+export const getAllByDepartmentId = (payload) => {
+  return api.makeRequest({
+    url: `/curators/get-by-departments/${payload.departmentId}?pageSize=${
+      payload?.pageSize || 10
+    }&pageNumber=${payload?.pageNumber || 1}&filter=${payload?.keyword || ""}`,
+    method: "GET",
+  });
+};
+
 export const create = (payload) => {
   return api.makeRequest({
     url: `/curators`,

@@ -7,6 +7,7 @@ import identifySaga from "./identifies/saga";
 import statisticSaga from "./statistics/saga";
 import curatorSaga from "./curators/saga";
 import reportSaga from "./reports/saga";
+import contactSaga from "./contacts/saga";
 export default function* rootSaga() {
   yield all([
     departmentSaga(),
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     statisticSaga(),
     curatorSaga(),
     reportSaga(),
+    contactSaga(),
   ]);
 }

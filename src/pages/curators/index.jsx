@@ -69,7 +69,7 @@ const baseColumns = [
   },
 ];
 
-const Curator = () => {
+const CuratorForDepartment = () => {
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -138,4 +138,4 @@ const Curator = () => {
   );
 };
 
-export default Curator;
+export default CuratorForDepartment;

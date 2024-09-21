@@ -14,5 +14,6 @@ export const TableWrapper = styled(Table)`
   .ant-table-thead > tr > th {
     // background: #f9f9f9;
     text-transform: uppercase;
+    font-size: 11px;
   }
 `;

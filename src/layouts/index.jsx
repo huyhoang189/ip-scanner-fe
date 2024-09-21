@@ -1,4 +1,4 @@
-import { Layout, theme, Menu } from "antd";
+import { Layout, theme, Menu, Flex, Divider } from "antd";
 import Header from "./header";
 import { Outlet } from "react-router-dom";
 import useWindowSize from "../hooks/useWindowSize";
@@ -13,12 +13,12 @@ const MainLayout = () => {
       style={{
         margin: 0,
         minHeight: height,
-        backgroundColor: token.colorBgBase,
+        backgroundColor: "#fafafb",
       }}
     >
-      <Header />
+      <Siderbar />
       <Layout>
-        <Siderbar />
+        <Header />
         <Content
           style={{
             padding: 10,
@@ -27,17 +27,29 @@ const MainLayout = () => {
         >
           <Outlet />
         </Content>
+        <Footer
+          style={{
+            textAlign: "center",
+            // fontWeight: "bold",
+            padding: 20,
+            // backgroundColor: token.colorBgHeader,
+            // color: "#fff",
+          }}
+        >
+          <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+          <Flex
+            justify="space-between"
+            align="center"
+            style={{ width: "100%" }}
+          >
+            <span>
+              ©{new Date().getFullYear()} Hệ thống quản lý giám sát dải IP trên
+              địa bàn phía Nam
+            </span>
+            <span>Cụm 23 - Trung tâm 286 - Bộ Tư lệnh 86</span>
+          </Flex>
+        </Footer>
       </Layout>
-      <Footer
-        style={{
-          textAlign: "center",
-          backgroundColor: token.colorBgHeader,
-          color: "#fff",
-        }}
-      >
-        ©{new Date().getFullYear()} Hệ thống quản lý giám sát dải IP trên địa
-        bàn phía Nam
-      </Footer>
     </Layout>
   );
 };

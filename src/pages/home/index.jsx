@@ -29,6 +29,9 @@ import useResizeObserver from "../../hooks/useResizeObserver";
 // import SimpleBarChart from "./chart/department.chart";
 // import SessionBarChart from "./chart/sessions.chart";
 import Scanning from "./scanning";
+import ApexLine from "../../components/ApexChart/Line";
+import ApexPie from "../../components/ApexChart/Pie";
+import ApexBar from "../../components/ApexChart/Bar";
 const pageHeader = {
   breadcrumb: [
     {
@@ -54,7 +57,7 @@ const getTimeRange = () => {
   const formattedCurrentDate = formatDate(currentDate);
 
   let dates = [];
-  for (let i = 0; i < 31; i++) {
+  for (let i = 0; i < 32; i++) {
     let item = formatDate(new Date(previousDate.getTime() + i * duration_date));
     dates.push(item);
   }
@@ -139,27 +142,27 @@ const Home = () => {
                 }}
               />
             ),
-            // description: "Tăng so với tháng trước",
+            path: "/systems/systems-departments",
           },
+          // {
+          //   title: "Tổng số dải địa chỉ",
+          //   count: overview?.IpRangeCount + countIpRange?.IpRangeCount,
+          //   icon: (
+          //     <GlobalOutlined
+          //       style={{
+          //         fontSize: "30px",
+          //         color: "#fff",
+          //         margin: "0 10px 0 0",
+          //         backgroundColor: "#36BA98",
+          //         padding: 10,
+          //         borderRadius: 10,
+          //       }}
+          //     />
+          //   ),
+          //   path: "/ipranges",
+          // },
           {
-            title: "Tổng số dải địa chỉ IP",
-            count: overview?.IpRangeCount + countIpRange?.IpRangeCount,
-            icon: (
-              <GlobalOutlined
-                style={{
-                  fontSize: "30px",
-                  color: "#fff",
-                  margin: "0 10px 0 0",
-                  backgroundColor: "#36BA98",
-                  padding: 10,
-                  borderRadius: 10,
-                }}
-              />
-            ),
-            // description: "Tăng so với tháng trước",
-          },
-          {
-            title: "Dải địa chỉ IP đã được định danh",
+            title: "Dải địa chỉ đã được định danh",
             count: countIpRange?.IpRangeCount,
             icon: (
               <GlobalOutlined
@@ -173,10 +176,10 @@ const Home = () => {
                 }}
               />
             ),
-            // description: "Tăng so với tháng trước",
+            path: "/ipranges",
           },
           {
-            title: "Dải địa chỉ IP chưa được định danh",
+            title: "Dải địa chỉ chưa định danh",
             count: overview?.StrangeIpRangeCount,
             icon: (
               <FileUnknownFilled
@@ -190,7 +193,7 @@ const Home = () => {
                 }}
               />
             ),
-            // description: "Giảm so với tháng trước",
+            path: "/reports/reports-ipranges/UNIDENTIFIED",
           },
           {
             title: "Tổng số phiên quét",
@@ -207,7 +210,7 @@ const Home = () => {
                 }}
               />
             ),
-            // description: "Giảm so với tháng trước",
+            path: "/sessions",
           },
         ]}
       />
@@ -219,7 +222,8 @@ const Home = () => {
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Biểu đồ phát hiện số lượng dải địa chỉ mới trong 30 ngày
               </Typography.Text>
-              <LineChart data={lineData} width={Math.round(lineBarWidth)} />
+              {/* <LineChart data={lineData} width={Math.round(lineBarWidth)} /> */}
+              <ApexLine data={lineData} />
             </Card>
             <Card ref={lineBarRef}>
               <Typography.Text style={{ fontWeight: "bold" }}>
@@ -235,19 +239,14 @@ const Home = () => {
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Biểu đồ thống kê số lượng dải địa chỉ được định danh
               </Typography.Text>
-              <PieChartCustome
-                data={countIpRange}
-                size={Math.round(pieWidth) - 10}
-              />
+
+              <ApexPie data={countIpRange} />
             </Card>
             <Card>
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Biểu đồ thống kê trạng thái phiên quét
               </Typography.Text>
-              {/* <SessionBarChart
-                data={sessions}
-                width={Math.round(pieWidth) - 10}
-              /> */}
+              <ApexBar data={sessions} />
             </Card>
           </Flex>
         </Col>

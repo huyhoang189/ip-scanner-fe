@@ -9,6 +9,7 @@ import ScanBySession from "../pages/scans";
 import Curator from "../pages/curators";
 import ReportIpRange from "../pages/reports/ipRanges";
 import ReportSession from "../pages/reports/sessions";
+import Contact from "../pages/contacts";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +20,10 @@ export const router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
-
+      {
+        path: "contacts",
+        element: <Contact />,
+      },
       {
         path: "sessions",
         element: <Session />,

@@ -1,15 +1,21 @@
 import { BarChartOutlined } from "@ant-design/icons";
 import { Card, Flex, Typography } from "antd";
-
+import "./card.style.css";
+import { useNavigate } from "react-router-dom";
 const CardView = ({ item, width }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(item?.path);
+  };
   return (
     <Card
       style={{
         width: `${width}%`,
         height: 100,
-
-        // backgroundColor: "#FF8042",
       }}
+      className="card-view hover-card"
+      onClick={() => handleClick()}
     >
       <Flex vertical={false} align="center">
         {item?.icon}

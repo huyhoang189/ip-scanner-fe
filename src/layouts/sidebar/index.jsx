@@ -6,6 +6,7 @@ import { SiderWrapper } from "./style.js";
 import { useState } from "react";
 import {
   CloudServerOutlined,
+  ContactsOutlined,
   FileDoneOutlined,
   HomeOutlined,
   LeftOutlined,
@@ -13,6 +14,7 @@ import {
   ScanOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import logo from "../../assets/logo.png";
 const { Sider } = Layout;
 
 const publicRouter = [
@@ -33,25 +35,26 @@ const publicRouter = [
     icon: <CloudServerOutlined />,
   },
   {
+    key: "contacts",
+    label: "Danh bạ",
+    icon: <ContactsOutlined />,
+  },
+  {
     key: "reports",
     label: "Thống kê, báo cáo",
     icon: <FileDoneOutlined />,
     children: [
       {
-        key: "statistics-departments",
-        label: "Thống kê danh mục đơn vị",
-      },
-      {
         key: "reports-ipranges",
-        label: "Thống kê dải địa chỉ IP",
+        label: "Thống kê dải địa chỉ IP (Scan)",
       },
       {
         key: "reports-ipranges/IDENTIFIED",
-        label: "Thống kê dải IP đã định danh",
+        label: "Thống kê dải IP đã định danh (Scan)",
       },
       {
         key: "reports-ipranges/UNIDENTIFIED",
-        label: "Thống kê dải IP chưa định danh",
+        label: "Thống kê dải IP chưa định danh (Scan)",
       },
       {
         key: "reports-sessions",
@@ -136,19 +139,23 @@ const Siderbar = () => {
     <SiderWrapper
       style={{
         backgroundColor: token?.colorBgBase,
-        padding: "1px 0",
+        border: "1px solid #d6d9dc",
       }}
       collapsed={menuCollapse}
-      breakpoint="lg"
       collapsedWidth="60"
     >
-      <Flex vertical justify="space-around" style={{ height: "100%" }}>
+      <Flex vertical align="center">
+        <Image
+          src={logo}
+          width={40}
+          preview={false}
+          style={{ margin: "10px 0px" }}
+        />
         <Menu
           items={publicRouter}
           mode="inline"
           onClick={onClickSelectItem}
-          theme="dark"
-          style={{ height: "100%" }}
+          style={{ width: "100%" }}
           selectedKeys={
             location.pathname.split("/").filter(Boolean).length > 0
               ? location.pathname.split("/").filter(Boolean)
@@ -157,20 +164,6 @@ const Siderbar = () => {
           openKeys={stateOpenKeys}
           onOpenChange={onOpenChange}
         />
-        <div
-          className="trigger-sider"
-          style={{
-            width: "100%",
-            textAlign: "center",
-          }}
-          onClick={collapseSiderbar}
-        >
-          {menuCollapse ? (
-            <RightOutlined style={{ height: 48, color: "#fff" }} />
-          ) : (
-            <LeftOutlined style={{ height: 48, color: "#fff" }} />
-          )}
-        </div>
       </Flex>
     </SiderWrapper>
   );

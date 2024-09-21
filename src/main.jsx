@@ -12,17 +12,18 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       token: {
         colorBgBase: "#fff",
         colorBgHeader: "#006666",
-        borderRadius: 2,
+        borderRadius: 8,
         colorBorderSecondary: "#d6d9dc",
         colorBorder: "#d6d9dc",
-        fontSize: 14,
-        colorPrimary: "#008080",
+        fontSize: 12,
+        colorPrimary: "#3e79f7",
+        fontFamily: `Roboto, sans-serif !important`,
       },
       components: {
         Table: {
           rowHoverBg: "#fff",
           borderColor: "#d6d9dc",
-          headerBg: "#008080",
+          headerBg: "#3e79f7",
           headerColor: "#fff",
         },
         Button: {
@@ -34,16 +35,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         },
         Statistic: {},
         Menu: {
-          darkItemBg: "#006666",
-          darkSubMenuItemBg: "#006666",
-          darkItemColor: "#fff",
-          darkItemHoverBg: "#009999",
-          darkItemSelectedBg: "#008080",
-          itemSelectedBg: "#009999",
-          darkPopupBg: "#008080",
-        },
-        Divider: {
-          colorBgBase: "#d6d9dc",
+          // darkItemBg: "#006666",
+          // darkSubMenuItemBg: "#006666",
+          // darkItemColor: "#fff",
+          // darkItemHoverBg: "#009999",
+          // darkItemSelectedBg: "#008080",
+          // itemSelectedBg: "#009999",
+          // darkPopupBg: "#008080",
         },
       },
     }}

@@ -6,27 +6,11 @@ export const SiderWrapper = styled(Sider)`
     border-inline-end: 0px;
   }
 
+  .ant-menu-light.ant-menu-root.ant-menu-vertical {
+    border-inline-end: 0px;
+  }
+
   .ant-layout-sider-children {
     border-right: 0px solid #d6d9dc;
-  }
-
-  .ant-menu > li > span {
-    font-weight: 600;
-  }
-
-  .ant-menu > li > div > span {
-    font-weight: 600;
-  }
-
-  .ant-menu-dark .ant-menu-submenu-selected > .ant-menu-submenu-title {
-    background-color: #004d4d;
-  }
-
-  .trigger-sider {
-    background-color: #004d4d;
-  }
-
-  .trigger-sider:hover {
-    background-color: #008080;
   }
 `;
