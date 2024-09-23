@@ -7,14 +7,14 @@ export default function User({ sessionUser, logout }) {
     <Dropdown
       menu={{
         items: [
-          {
-            key: "PROFILE",
-            label: (
-              <Flex gap={10}>
-                <UserOutlined /> <span>Cá nhân</span>
-              </Flex>
-            ),
-          },
+          // {
+          //   key: "PROFILE",
+          //   label: (
+          //     <Flex gap={10}>
+          //       <UserOutlined /> <span>Cá nhân</span>
+          //     </Flex>
+          //   ),
+          // },
           {
             key: "LOGOUT",
             label: (

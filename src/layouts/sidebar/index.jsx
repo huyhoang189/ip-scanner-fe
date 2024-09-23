@@ -106,6 +106,7 @@ const levelKeys = getLevelKeys(publicRouter);
 
 const Siderbar = () => {
   const { menuCollapse } = useSelector((state) => state.apps);
+  const { item } = useSelector((state) => state.auths);
   const { token } = theme.useToken();
 
   const [stateOpenKeys, setStateOpenKeys] = useState([]);
@@ -143,6 +144,12 @@ const Siderbar = () => {
     dispatch(appSlice.actions.toggleSiderbar());
   };
 
+  let router;
+
+  if (item?.Permission !== "ADMIN") {
+    router = publicRouter.filter((item) => item.key !== "systems");
+  } else router = publicRouter;
+
   return (
     <SiderWrapper
       style={{
@@ -160,7 +167,7 @@ const Siderbar = () => {
           style={{ margin: "10px 0px" }}
         />
         <Menu
-          items={publicRouter}
+          items={router}
           mode="inline"
           onClick={onClickSelectItem}
           style={{ width: "100%" }}
