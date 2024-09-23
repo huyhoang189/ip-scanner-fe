@@ -1,19 +1,21 @@
-import { Flex } from "antd";
+import { Col, Row } from "antd";
 import CardView from "./card";
 
 const StatisticView = ({ data }) => {
   const width = (100 - 2) / data?.length;
   return (
-    <Flex
-      style={{ width: "100%", marginBottom: 10 }}
-      vertical={false}
-      justify="space-between"
-      align="center"
+    <Row
+      style={{
+        marginBottom: 10,
+      }}
+      gutter={10}
     >
       {data.map((e, i) => (
-        <CardView item={e} width={width} key={i} />
+        <Col span={6} style={{ width: "100%" }}>
+          <CardView item={e} width={"100%"} key={i} />
+        </Col>
       ))}
-    </Flex>
+    </Row>
   );
 };
 

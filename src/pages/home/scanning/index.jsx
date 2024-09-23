@@ -7,8 +7,8 @@ import { convertTime } from "../../../utils/time";
 const baseColumns = [
   {
     title: "STT",
-    dataIndex: "key_table",
-    key: "key_table",
+    dataIndex: "index",
+    key: "index",
     align: "center",
     width: 50,
   },

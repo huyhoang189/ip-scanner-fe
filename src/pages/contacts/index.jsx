@@ -34,8 +34,8 @@ const pageHeader = {
 const baseColumns = [
   {
     title: "STT",
-    dataIndex: "key_table",
-    key: "key_table",
+    dataIndex: "index",
+    key: "index",
     align: "center",
     width: 50,
   },
@@ -133,7 +133,7 @@ const Contact = () => {
                   actionName: "DELETE",
                   pageSize: pageSize,
                   pageNumber:
-                    record?.key === pageSize * (pageNumber - 1) + 1
+                    record?.index === pageSize * (pageNumber - 1) + 1
                       ? Math.max(pageNumber - 1, 1)
                       : pageNumber,
                 })

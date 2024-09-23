@@ -16,6 +16,7 @@ import {
 import PieChartCustome from "./chart/pie.chart";
 import LineChart from "./chart/line.chart";
 import {
+  ArrowRightOutlined,
   ArrowUpOutlined,
   BarChartOutlined,
   CloudSyncOutlined,
@@ -75,6 +76,22 @@ const formatDate = (date) => {
   const year = date.getFullYear();
 
   return `${day}-${month}-${year}`;
+};
+
+const MoreInformation = ({ link }) => {
+  return (
+    <Flex vertical>
+      <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+      <Flex align="center" justify="flex-end" gap={10}>
+        <Typography.Text style={{ fontWeight: "bold" }}>
+          Xem thêm
+        </Typography.Text>
+        <a href={link}>
+          <ArrowRightOutlined style={{ fontSize: 20, fontWeight: "bold" }} />
+        </a>
+      </Flex>
+    </Flex>
+  );
 };
 
 const Home = () => {
@@ -144,23 +161,6 @@ const Home = () => {
             ),
             path: "/systems/systems-departments",
           },
-          // {
-          //   title: "Tổng số dải địa chỉ",
-          //   count: overview?.IpRangeCount + countIpRange?.IpRangeCount,
-          //   icon: (
-          //     <GlobalOutlined
-          //       style={{
-          //         fontSize: "30px",
-          //         color: "#fff",
-          //         margin: "0 10px 0 0",
-          //         backgroundColor: "#36BA98",
-          //         padding: 10,
-          //         borderRadius: 10,
-          //       }}
-          //     />
-          //   ),
-          //   path: "/ipranges",
-          // },
           {
             title: "Dải địa chỉ đã được định danh",
             count: countIpRange?.IpRangeCount,
@@ -215,21 +215,23 @@ const Home = () => {
         ]}
       />
 
-      <Row gutter={16} style={{ marginBottom: 10 }}>
+      <Row gutter={10} style={{ marginBottom: 10 }}>
         <Col span={18}>
           <Flex vertical style={{ width: "100%" }} gap={10}>
             <Card ref={lineBarRef}>
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Biểu đồ phát hiện số lượng dải địa chỉ mới trong 30 ngày
               </Typography.Text>
-              {/* <LineChart data={lineData} width={Math.round(lineBarWidth)} /> */}
+
               <ApexLine data={lineData} />
+              <MoreInformation link="/ipranges" />
             </Card>
             <Card ref={lineBarRef}>
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Các phiên quét đang được thực hiện
               </Typography.Text>
               <Scanning />
+              <MoreInformation link="/sessions" />
             </Card>
           </Flex>
         </Col>
@@ -239,14 +241,15 @@ const Home = () => {
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Biểu đồ thống kê số lượng dải địa chỉ được định danh
               </Typography.Text>
-
               <ApexPie data={countIpRange} />
+              <MoreInformation link="/reports/reports-ipranges" />
             </Card>
             <Card>
               <Typography.Text style={{ fontWeight: "bold" }}>
                 Biểu đồ thống kê trạng thái phiên quét
               </Typography.Text>
               <ApexBar data={sessions} />
+              <MoreInformation link="/sessions" />
             </Card>
           </Flex>
         </Col>

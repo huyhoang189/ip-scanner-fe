@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getCookieToken } from "../utils/cookie";
 import { notification } from "antd";
+import { TOKEN_VERIFY } from "../utils/common";
 
 const jwtInterceoptor = axios.create({
   baseURL: import.meta.env.VITE_BASE_BE_URL,
@@ -9,7 +10,7 @@ const jwtInterceoptor = axios.create({
 
 jwtInterceoptor.interceptors.request.use((config) => {
   // //console.log(process.env)
-  const cookie = getCookieToken("token");
+  const cookie = getCookieToken(TOKEN_VERIFY);
 
   if (cookie?.token) config.headers.Authorization = `Bearer ${cookie?.token}`;
 
@@ -30,7 +31,7 @@ jwtInterceoptor.interceptors.response.use(
       setTimeout(function () {
         //your code to be executed after 1 second
         window.location.href = "/login";
-      }, 1000);
+      }, 3000);
       return;
     } else {
       return Promise.reject(error);
@@ -50,7 +51,7 @@ const _makeRequest = (createRequest) => async (args) => {
     },
     body,
   };
-  console.log(args);
+  // console.log(args);
 
   try {
     const { data, status } = await createRequest(args);

@@ -49,10 +49,10 @@ export default function User({ sessionUser, logout }) {
         />
         <Flex vertical style={{ width: "100%" }}>
           <Typography.Text style={{ fontSize: 15, fontWeight: 600 }}>
-            {sessionUser?.full_name || "Undefined"}
+            {sessionUser?.full_name || "Trực ban giám sát"}
           </Typography.Text>
           <Typography.Text style={{ fontSize: 10 }}>
-            {sessionUser?.groups || "Undefined"}
+            {sessionUser?.groups || "Cụm 23"}
           </Typography.Text>
         </Flex>
       </Flex>

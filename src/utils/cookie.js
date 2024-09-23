@@ -14,10 +14,24 @@ const clearCookieToken = (_cookieKey) => {
   document.cookie = `${_cookieKey}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 };
 
-const insertCookieToken = (_cookieKey, payload) => {
-  const expirationDate = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
+// const insertCookieToken = (_cookieKey, payload, timeExpired) => {
+//   const timeExpiredSeconds = parseInt(timeExpired, 10); // Convert the string to an integer
+//   const expirationTime = timeExpiredSeconds * 1000; // Convert seconds to milliseconds
+//   const expirationDate = new Date(Date.now() + expirationTime); // Calculate the expiration date
+
+//   document.cookie = `${_cookieKey}=${JSON.stringify(
+//     payload
+//   )}; expires=${expirationDate.toUTCString()}; path=/;`;
+// };
+
+const insertCookieToken = (_cookieKey, payload, timeExpired) => {
+  // Chuyển thời gian hết hạn từ giây (UNIX timestamp) sang milliseconds
+  const expirationTime = new Date(timeExpired * 1000); // timeExpired là UNIX timestamp
+
+  // Lưu cookie với thời gian hết hạn cụ thể
   document.cookie = `${_cookieKey}=${JSON.stringify(
     payload
-  )}; expires=${expirationDate.toUTCString()}; path=/;`;
+  )}; expires=${expirationTime.toUTCString()}; path=/;`;
 };
+
 export { getCookieToken, clearCookieToken, insertCookieToken };

@@ -16,7 +16,7 @@ const CustomeTable = ({
   dataSource = data.map((e, i) => ({
     ...e,
     key: e?.key ? e?.key : e?.ID,
-    key_table: pagination
+    index: pagination
       ? 1 + i + pagination?.pageSize * (pagination?.current - 1)
       : i + 1,
   }));

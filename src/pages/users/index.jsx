@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import sessionSlice from "../../toolkits/sessions/slice";
-import scanSlice from "../../toolkits/scans/slice";
+import userSlice from "../../toolkits/users/slice";
 import { useEffect, useRef, useState } from "react";
 import { ContentWrapper } from "../../assets/styles/contentWrapper.style";
 import CustomBreadcrumb from "../../components/breadcrumb";
@@ -21,9 +20,11 @@ import {
   CaretRightOutlined,
   PlayCircleOutlined,
   PlaySquareOutlined,
+  StopOutlined,
 } from "@ant-design/icons";
 import { convertTime } from "../../utils/time";
 import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
+import { render } from "react-dom";
 
 const pageHeader = {
   breadcrumb: [
@@ -32,7 +33,10 @@ const pageHeader = {
       href: "/",
     },
     {
-      title: "Quản lý phiên quét",
+      title: "Quản trị hệ thống",
+    },
+    {
+      title: "Người dùng hệ thống",
     },
   ],
 };
@@ -46,61 +50,52 @@ const baseColumns = [
     width: 50,
   },
   {
-    title: "Tên phiên quét",
-    dataIndex: "Title",
-    key: "Title",
+    title: "Tên đầy đủ",
+    dataIndex: "FullName",
+    key: "FulName",
     align: "center",
   },
   {
-    title: "Lệnh",
-    dataIndex: "Command",
-    key: "Command",
+    title: "Tên tài khoản",
+    dataIndex: "UserName",
+    key: "UserName",
     align: "center",
   },
   {
-    title: "Chế độ quét",
-    dataIndex: "Mode",
-    key: "Mode",
-    align: "center",
-    render: (text, record) => {
-      return SCAN_MODE[text];
-    },
-  },
-
-  {
-    title: "Trạng thái",
-    dataIndex: "Status",
-    key: "Status",
-    align: "center",
-    render: (text, record) => {
-      return record?.Status === "NOTHING" ? (
-        <Tag color="red">Chưa quét</Tag>
-      ) : record?.Status === "SCANNING" ? (
-        <Tag color="yellow">Đang quét</Tag>
-      ) : (
-        <Tag color="green">Đã quét xong</Tag>
-      );
-    },
-  },
-
-  {
-    title: "Thời gian kết thúc",
-    dataIndex: "UpdatedAt",
-    key: "UpdatedAt",
+    title: "Lần đăng nhập gần nhất",
+    dataIndex: "LatestLogin",
+    key: "LatestLogin",
     align: "center",
     render: (text, record) => {
       return convertTime(text);
     },
   },
+  {
+    title: "Nhóm người dùng",
+    dataIndex: "Permission",
+    key: "Permission",
+    align: "center",
+  },
+  {
+    title: "Trạng thái",
+    dataIndex: "IsActive",
+    key: "IsActive",
+    align: "center",
+    render: (text, record) => {
+      return record?.IsActive == "ACTIVE" ? (
+        <Tag color="green">Đang hoạt động</Tag>
+      ) : (
+        <Tag color="red">Đang khoá</Tag>
+      );
+    },
+  },
 ];
 
-const Session = () => {
+const User = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const intervalRef = useRef();
 
-  const { sessions, isLoading, count, pageNumber, pageSize } = useSelector(
-    (state) => state.sessions
+  const { users, isLoading, count, pageNumber, pageSize } = useSelector(
+    (state) => state.users
   );
 
   const [keyword, setKeyword] = useState("");
@@ -111,7 +106,7 @@ const Session = () => {
 
   const handlePaginationChange = (current, pageSize) => {
     dispatch(
-      sessionSlice.actions.getSessions({
+      userSlice.actions.getUsers({
         keyword,
         pageSize: pageSize,
         pageNumber: current,
@@ -120,30 +115,12 @@ const Session = () => {
   };
 
   const handleModal = (_item) => {
-    dispatch(sessionSlice.actions.toggleModal(_item));
+    dispatch(userSlice.actions.toggleModal(_item));
   };
 
   const columns = [
     ...baseColumns,
-    {
-      title: "Tiến độ",
-      key: "progress",
-      align: "center",
-      width: 100,
-      render: (text, record) => {
-        const percentage = Math.round((record?.Progress / record?.Count) * 100);
-        const status = percentage !== 100 ? "active" : "success";
 
-        return (
-          <Progress
-            percent={percentage}
-            type="circle"
-            size={30}
-            status={status}
-          />
-        );
-      },
-    },
     {
       title: "Công cụ",
       key: "tool",
@@ -154,31 +131,32 @@ const Session = () => {
           direction="horizontal"
           style={{ width: "100%", justifyContent: "center" }}
         >
-          <DetailButton onClick={() => navigate(`${record.ID}`)} />
           <UpdateButton
-            icon={<CaretRightOutlined />}
-            title="Quét"
-            onClick={() =>
-              dispatch(
-                scanSlice.actions.handleScan({
-                  actionName: ACTION_NAME.EXECUTE_ALL,
-                  item: record,
-                })
+            icon={
+              record?.IsActive == "ACTIVE" ? (
+                <StopOutlined style={{ color: "red" }} />
+              ) : (
+                <CaretRightOutlined style={{ color: "green" }} />
               )
             }
+            onClick={() => {
+              dispatch(
+                userSlice.actions.handleUser({
+                  item: {
+                    ...record,
+                    IsActive:
+                      record?.IsActive == "ACTIVE" ? "INACTIVE" : "ACTIVE",
+                  },
+                  actionName: ACTION_NAME.UPDATE,
+                })
+              );
+            }}
           />
-          <UpdateButton
-            onClick={() => handleModal(record)}
-            disabled={
-              Math.round((record?.Progress / record?.Count) * 100) != 100
-                ? true
-                : false
-            }
-          />
+          <UpdateButton onClick={() => handleModal(record)} />
           <DeleteButton
             onConfirm={() => {
               dispatch(
-                sessionSlice.actions.handleSession({
+                userSlice.actions.handleUser({
                   item: record,
                   actionName: "DELETE",
                   pageSize: pageSize,
@@ -195,25 +173,15 @@ const Session = () => {
     },
   ];
 
-  const exportFile = async (sessionId) => {};
-
   //side effect
   useEffect(() => {
-    const fetchScans = () => {
-      dispatch(
-        sessionSlice.actions.getSessions({
-          keyword,
-          pageSize: 30,
-          pageNumber: 1,
-        })
-      );
-    };
-
-    fetchScans(); // initial fetch
-
-    intervalRef.current = setInterval(fetchScans, 5000); // fetch every 5 seconds
-
-    return () => clearInterval(intervalRef.current); // clean
+    dispatch(
+      userSlice.actions.getUsers({
+        keyword,
+        pageSize: 10,
+        pageNumber: 1,
+      })
+    );
   }, [dispatch, keyword]);
 
   return (
@@ -233,9 +201,9 @@ const Session = () => {
               <CreateButton onClick={() => handleModal(null)} />
             </Header>
           }
-          data={sessions}
+          data={users}
           columns={columns}
-          // isLoading={isLoading}
+          isLoading={isLoading}
           pagination={{
             current: pageNumber,
             pageSize: pageSize,
@@ -250,4 +218,4 @@ const Session = () => {
   );
 };
 
-export default Session;
+export default User;

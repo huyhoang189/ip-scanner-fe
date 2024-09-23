@@ -10,6 +10,10 @@ import Curator from "../pages/curators";
 import ReportIpRange from "../pages/reports/ipRanges";
 import ReportSession from "../pages/reports/sessions";
 import Contact from "../pages/contacts";
+import Login from "../pages/auth/login";
+import Schedule from "../pages/schedules";
+import Setting from "../pages/settings";
+import User from "../pages/users";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -74,8 +78,24 @@ export const router = createBrowserRouter([
             path: "systems-departments/:id",
             element: <Curator />,
           },
+          {
+            path: "systems-schedules",
+            element: <Schedule />,
+          },
+          {
+            path: "systems-settings",
+            element: <Setting />,
+          },
+          {
+            path: "systems-users",
+            element: <User />,
+          },
         ],
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);

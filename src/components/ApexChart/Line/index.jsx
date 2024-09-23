@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
 export default function ApexLine({ data }) {
-  console.log(data);
   const options = {
     chart: {
       id: "basic-bar",

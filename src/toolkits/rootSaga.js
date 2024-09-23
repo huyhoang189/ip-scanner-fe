@@ -8,6 +8,11 @@ import statisticSaga from "./statistics/saga";
 import curatorSaga from "./curators/saga";
 import reportSaga from "./reports/saga";
 import contactSaga from "./contacts/saga";
+import scheduleSaga from "./schedules/saga";
+import settingSaga from "./settings/saga";
+import authSaga from "./auth/saga";
+import useSaga from "./users/saga";
+
 export default function* rootSaga() {
   yield all([
     departmentSaga(),
@@ -19,5 +24,9 @@ export default function* rootSaga() {
     curatorSaga(),
     reportSaga(),
     contactSaga(),
+    scheduleSaga(),
+    settingSaga(),
+    authSaga(),
+    useSaga(),
   ]);
 }

@@ -28,3 +28,5 @@ export const ScanModeOptions = Object.entries(SCAN_MODE).map(
     value: key,
   })
 );
+
+export const TOKEN_VERIFY = "zFIIRVKWhR";

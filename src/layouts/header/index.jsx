@@ -4,16 +4,24 @@ import { useNavigate } from "react-router-dom";
 import { HeaderWrapper } from "./style";
 import appSlice from "../../toolkits/App/slice.js";
 import { MenuOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import User from "./user.jsx";
+import authSlice from "../../toolkits/auth/slice.js";
+import { useEffect } from "react";
 const Header = () => {
   // const { token } = theme.useToken();
   // const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
+  const { item } = useSelector((state) => state.auths);
   const collapseSiderbar = () => {
     dispatch(appSlice.actions.toggleSiderbar());
   };
+
+  useEffect(() => {
+    dispatch(authSlice.actions.checkAuthentication());
+  }, [window.location.pathname]);
 
   return (
     <HeaderWrapper
@@ -44,7 +52,13 @@ const Header = () => {
           HỆ THỐNG GIÁM SÁT DẢI ĐỊA CHỈ IP TRÊN ĐỊA BÀN
         </Typography.Text>
       </Space>
-      <User />
+      <User
+        logout={() => dispatch(authSlice.actions.logout())}
+        sessionUser={{
+          full_name: item?.FullName,
+          groups: item?.Permission,
+        }}
+      />
     </HeaderWrapper>
   );
 };

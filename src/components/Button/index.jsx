@@ -6,6 +6,7 @@ import {
   InfoCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 const CreateButton = ({
   onClick,
@@ -14,6 +15,9 @@ const CreateButton = ({
   disabled = false,
   size = "normal",
 }) => {
+  const { item } = useSelector((state) => state.auths);
+  if (item?.Permission === "USER") return null;
+
   return text ? (
     <Button
       type="primary"
@@ -72,6 +76,9 @@ const UpdateButton = ({
   name = "",
   size = "normal",
 }) => {
+  const { item } = useSelector((state) => state.auths);
+  if (item?.Permission === "USER") return null;
+
   return (
     <Tooltip title={title}>
       <Button icon={icon} onClick={onClick} disabled={disabled} size={size}>
@@ -98,6 +105,9 @@ const DeleteButton = ({
   type = "default",
   size = "normal",
 }) => {
+  const { item } = useSelector((state) => state.auths);
+  if (item?.Permission === "USER") return null;
+
   return (
     <Popconfirm
       title="Bạn có muốn xoá bản ghi không ?"

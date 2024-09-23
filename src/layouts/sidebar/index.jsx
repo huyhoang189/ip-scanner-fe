@@ -75,6 +75,14 @@ const publicRouter = [
         key: "systems-users",
         label: "Danh sách tài khoản",
       },
+      {
+        key: "systems-schedules",
+        label: "Lập lịch hệ thống",
+      },
+      {
+        key: "systems-settings",
+        label: "Cấu hình hệ thống",
+      },
     ],
   },
 ];

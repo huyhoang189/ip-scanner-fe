@@ -16,6 +16,7 @@ import { Card, Space } from "antd";
 import ModalItem from "./modal";
 import { generateTrees } from "../../utils/tree";
 import { useNavigate } from "react-router-dom";
+import { render } from "react-dom";
 const pageHeader = {
   breadcrumb: [
     {
@@ -37,6 +38,13 @@ const baseColumns = [
     dataIndex: "Name",
     key: "Name",
     width: "35%",
+    render: (text, record) => {
+      return (
+        <span style={{ ...(record?.IsCategory && { fontWeight: "bold" }) }}>
+          {text}
+        </span>
+      );
+    },
   },
 
   // {
@@ -145,7 +153,7 @@ const Department = () => {
                   actionName: "DELETE",
                   pageSize: pageSize,
                   pageNumber:
-                    record?.key === pageSize * (pageNumber - 1) + 1
+                    record?.index === pageSize * (pageNumber - 1) + 1
                       ? Math.max(pageNumber - 1, 1)
                       : pageNumber,
                 })
