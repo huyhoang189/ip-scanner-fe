@@ -15,6 +15,7 @@
     "@ant-design/plots": "^2.2.8",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@fontsource/roboto": "^5.1.0",
     "@reduxjs/toolkit": "^2.2.1",
     "antd": "^5.15.3",
     "apexcharts": "^3.53.0",
