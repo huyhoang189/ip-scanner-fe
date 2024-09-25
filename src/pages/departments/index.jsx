@@ -27,7 +27,7 @@ const pageHeader = {
       title: "Quản lý hệ thống",
     },
     {
-      title: "Quản lý đơn vị",
+      title: "Quản lý danh mục đơn vị",
     },
   ],
 };
@@ -56,13 +56,23 @@ const baseColumns = [
   //     return record?.Parent?.Name;
   //   },
   // },
+  // {
+  //   title: "Đầy đủ",
+  //   dataIndex: "FullName",
+  //   key: "FullName",
+  //   width: "20%",
+  //   render: (text, record) => {
+  //     return record?.FullName;
+  //   },
+  // },
   {
-    title: "Đầy đủ",
-    dataIndex: "FullName",
-    key: "FullName",
-    width: "35%",
+    title: "Cấp đơn vị",
+    dataIndex: "Level",
+    key: "Level",
+    align: "center",
+    width: 200,
     render: (text, record) => {
-      return record?.FullName;
+      return record?.IsCategory ? "Không xếp hạng" : `Cấp ${record?.Level}`;
     },
   },
   {
@@ -70,7 +80,7 @@ const baseColumns = [
     dataIndex: "Position",
     key: "Position",
     align: "center",
-    // width: 50,
+    width: 100,
   },
   {
     title: "Loại",
@@ -80,7 +90,7 @@ const baseColumns = [
     render: (text, _) => {
       return text ? "Danh mục" : "Đơn vị";
     },
-    // width: 50,
+    width: 200,
   },
 ];
 

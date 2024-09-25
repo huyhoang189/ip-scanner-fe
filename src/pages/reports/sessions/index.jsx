@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import reportSlice from "../../../toolkits/reports/slice";
 import { Tag } from "antd";
 import { convertTime } from "../../../utils/time";
-import { SCAN_MODE } from "../../../utils/common";
+import { SCAN_MODE, TOKEN_VERIFY } from "../../../utils/common";
 import { DetailButton } from "../../../components/Button";
 import {
   ExceptionOutlined,
@@ -19,15 +19,13 @@ import {
 } from "@ant-design/icons";
 import { saveAs } from "file-saver";
 import axios from "axios";
+import { getCookieToken } from "../../../utils/cookie";
 
 const pageHeader = {
   breadcrumb: [
     {
       title: "Trang chủ",
       href: "/",
-    },
-    {
-      title: "Thống kê dải địa chỉ IP",
     },
   ],
 };
@@ -129,12 +127,16 @@ const ReportSession = () => {
 
   const exportFile = async () => {
     try {
+      const user = getCookieToken(TOKEN_VERIFY);
       const response = await axios.get(
         `${
           import.meta.env.VITE_BASE_BE_URL
         }/reports/export-report-session-history`,
         {
           responseType: "blob", // Important
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
 

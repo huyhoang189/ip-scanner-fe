@@ -47,9 +47,10 @@ const Header = () => {
             // color: "#fff",
             fontSize: 19,
             fontWeight: 900,
+            textTransform: "uppercase",
           }}
         >
-          HỆ THỐNG GIÁM SÁT DẢI ĐỊA CHỈ IP TRÊN ĐỊA BÀN
+          Hệ thống quản lý mạng máy tính quân sự trực tuyến
         </Typography.Text>
       </Space>
       <User

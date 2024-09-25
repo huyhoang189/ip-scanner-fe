@@ -27,7 +27,7 @@ const pageHeader = {
       href: "/",
     },
     {
-      title: "Quản lý danh sách dải địa chỉ IP",
+      title: "Quản lý danh sách địa chỉ IP",
     },
   ],
 };

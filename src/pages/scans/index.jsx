@@ -30,6 +30,8 @@ import { saveAs } from "file-saver";
 import axios from "axios";
 import SelectInput from "../../components/Form/selectinput";
 import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
+import { getCookieToken } from "../../utils/cookie";
+import { TOKEN_VERIFY } from "../../utils/common";
 
 const { Text } = Typography;
 
@@ -41,6 +43,7 @@ const pageHeader = {
     },
     {
       title: "Quản lý phiên quét",
+      href: "/sessions",
     },
     {
       title: "Danh sách lệnh quét",
@@ -166,12 +169,16 @@ const ScanBySession = () => {
 
   const exportFile = async (sessionId) => {
     try {
+      const user = getCookieToken(TOKEN_VERIFY);
       const response = await axios.get(
         `${
           import.meta.env.VITE_BASE_BE_URL
         }/scans/export-to-excel/${sessionId}`,
         {
           responseType: "blob", // Important
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
 

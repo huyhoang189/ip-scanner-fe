@@ -13,6 +13,8 @@ import { convertTime } from "../../../utils/time";
 import { DetailButton } from "../../../components/Button";
 import { FileExcelOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { getCookieToken } from "../../../utils/cookie";
+import { TOKEN_VERIFY } from "../../../utils/common";
 
 const pageHeader = {
   breadcrumb: [
@@ -20,9 +22,9 @@ const pageHeader = {
       title: "Trang chủ",
       href: "/",
     },
-    {
-      title: "Thống kê dải địa chỉ IP",
-    },
+    // {
+    //   title: "Thống kê dải địa chỉ IP",
+    // },
   ],
 };
 
@@ -94,6 +96,7 @@ const ReportIpRange = () => {
 
   const exportFile = async () => {
     try {
+      const user = getCookieToken(TOKEN_VERIFY);
       const response = await axios.get(
         `${
           import.meta.env.VITE_BASE_BE_URL
@@ -102,6 +105,9 @@ const ReportIpRange = () => {
         }&filter=${keyword || ""}`,
         {
           responseType: "blob", // Important
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
 
@@ -134,12 +140,13 @@ const ReportIpRange = () => {
         items={[
           ...pageHeader.breadcrumb,
           {
-            title:
+            title: `Thống kê dải địa chỉ IP (${
               params?.type == "IDENTIFIED"
                 ? "Danh sách dải địa chỉ đã được định danh"
                 : params?.type == "UNIDENTIFIED"
                 ? "Danh sách dải địa chỉ chưa được định danh"
-                : "Tất cả",
+                : "Tất cả"
+            })`,
           },
         ]}
       />

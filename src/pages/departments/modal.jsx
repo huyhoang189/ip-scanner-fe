@@ -106,6 +106,15 @@ const ModalItem = () => {
         max={1000}
       />
 
+      <NumberInput
+        title="Cấp đơn vị"
+        onChange={onRecordSelectInputChange}
+        property={"Level"}
+        value={selectedDepartment?.Level}
+        max={1000}
+        min={1}
+      />
+
       <SelectInput
         title="Loại danh mục"
         onChange={onRecordSelectInputChange}

@@ -58,7 +58,7 @@ export default function Login() {
                 fontSize: 15,
               }}
             >
-              Hệ thống giám sát dải địa chỉ IP
+              Hệ thống quản lý <br /> mạng máy tính quân sự trực tuyến
             </Typography.Text>
           </Flex>
           <Input
@@ -74,6 +74,7 @@ export default function Login() {
               setPassword(e.target.value);
             }}
             value={password}
+            onPressEnter={onSubmit}
           />
 
           <Button block type="primary" onClick={onSubmit}>
