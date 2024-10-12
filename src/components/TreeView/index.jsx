@@ -27,7 +27,7 @@ const TreeView = ({ treeData, onSelected }) => {
 
   return (
     <Tree
-      style={{ fontWeight: "bold" }}
+      style={{ fontWeight: "bold", height: 600, overflow: "auto" }}
       treeData={treeData}
       showLine={true}
       onSelect={onSelected}
@@ -38,15 +38,6 @@ const TreeView = ({ treeData, onSelected }) => {
     />
   );
 };
-
-const baseColumns = [
-  {
-    title: "Tên đơn vị",
-    dataIndex: "Name",
-    key: "Name",
-    // width: "35%",
-  },
-];
 
 const TreeView_2 = ({ treeData, onSelected }) => {
   return (

@@ -55,6 +55,15 @@ const baseColumns = [
     },
   },
   {
+    title: "Thời gian kiểm tra",
+    dataIndex: "TimeActiveRecently",
+    key: "TimeActiveRecently",
+    align: "center",
+    render: (text, record) => {
+      return convertTime(record?.TimeActiveRecently);
+    },
+  },
+  {
     title: "Thời gian cập nhật",
     dataIndex: "UpdatedAt",
     key: "UpdatedAt",

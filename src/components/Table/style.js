@@ -3,7 +3,7 @@ import { Table } from "antd";
 
 export const TableWrapper = styled(Table)`
   .ant-table-cell {
-    padding: 6px 16px !important;
+    padding: 3px 6px !important;
     // color: #f9f9f9;
   }
 
@@ -15,5 +15,6 @@ export const TableWrapper = styled(Table)`
     // background: #f9f9f9;
     text-transform: uppercase;
     font-size: 11px;
+    height: 30px;
   }
 `;

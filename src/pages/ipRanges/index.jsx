@@ -18,7 +18,13 @@ import ModalUpdateItem from "./multi.modal";
 import { generateTreesOnlyKey, getNodeByKey } from "../../utils/tree";
 import TreeView from "../../components/TreeView";
 import { convertTime } from "../../utils/time";
-import { DoubleRightOutlined, SwapRightOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CiCircleFilled,
+  CloseCircleOutlined,
+  DoubleRightOutlined,
+  SwapRightOutlined,
+} from "@ant-design/icons";
 import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
 const pageHeader = {
   breadcrumb: [
@@ -33,12 +39,25 @@ const pageHeader = {
 };
 
 const baseColumns = [
+  // {
+  //   title: "STT",
+  //   dataIndex: "index",
+  //   key: "index",
+  //   width: 50,
+  //   align: "center",
+  // },
   {
-    title: "STT",
-    dataIndex: "index",
-    key: "index",
-    width: 50,
+    title: "Online",
+    dataIndex: "IsActive",
+    key: "IsActive",
     align: "center",
+    render: (text, record) => {
+      return record?.IsActive ? (
+        <CheckCircleOutlined style={{ color: "green" }} />
+      ) : (
+        <CloseCircleOutlined style={{ color: "red" }} />
+      );
+    },
   },
   {
     title: "Dải IP",
@@ -54,13 +73,23 @@ const baseColumns = [
       return record?.Department?.FullName;
     },
   },
+
   {
-    title: "Thời gian cập nhật",
-    dataIndex: "UpdatedAt",
-    key: "UpdatedAt",
+    title: "Thời gian kiểm tra",
+    dataIndex: "TimeActiveRecently",
+    key: "TimeActiveRecently",
     align: "center",
     render: (text, record) => {
-      return convertTime(record?.UpdatedAt);
+      return convertTime(record?.TimeActiveRecently);
+    },
+  },
+  {
+    title: "Thời gian cập nhật",
+    dataIndex: "CreatedAt",
+    key: "CreatedAt",
+    align: "center",
+    render: (text, record) => {
+      return convertTime(record?.CreatedAt);
     },
   },
 ];
@@ -123,7 +152,6 @@ const IpRange = () => {
       title: "Công cụ",
       key: "tool",
       align: "center",
-      width: 140,
       render: (text, record) => (
         <Space
           direction="horizontal"
@@ -197,12 +225,14 @@ const IpRange = () => {
   return (
     <ContentWrapper>
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
-      <PageBodyWrapper>
-        <Row gutter={16}>
-          <Col span={8}>
+      <Row gutter={8}>
+        <Col span={6}>
+          <PageBodyWrapper>
             <TreeView treeData={trees ? trees : []} onSelected={onSelected} />
-          </Col>
-          <Col span={16}>
+          </PageBodyWrapper>
+        </Col>
+        <Col span={18}>
+          <PageBodyWrapper>
             <CustomeTable
               header={
                 <Header>
@@ -240,12 +270,12 @@ const IpRange = () => {
                 ...rowSelection,
               }}
             />
-          </Col>
-        </Row>
+          </PageBodyWrapper>
+        </Col>
+      </Row>
 
-        <ModalItem />
-        <ModalUpdateItem selectedIpRanges={selectedIpRanges} />
-      </PageBodyWrapper>
+      <ModalItem />
+      <ModalUpdateItem selectedIpRanges={selectedIpRanges} />
     </ContentWrapper>
   );
 };

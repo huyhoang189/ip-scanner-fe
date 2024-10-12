@@ -31,13 +31,11 @@ const Header = () => {
         width: "100%",
         padding: "0 10px",
         borderBottom: "1px solid #d6d9dc",
-        // borderLeft: "1px solid #d6d9dc",
       }}
       align="center"
       justify="space-between"
     >
       <Space>
-        {/* <Image src={logo} width={40} preview={false} /> */}
         <MenuOutlined
           onClick={collapseSiderbar}
           style={{ fontSize: 20, marginRight: 10 }}

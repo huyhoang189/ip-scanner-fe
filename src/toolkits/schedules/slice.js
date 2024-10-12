@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SCAN_MODE } from "../../utils/common";
 
 const initialState = {
   schedules: [],
