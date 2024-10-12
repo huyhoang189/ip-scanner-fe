@@ -14,6 +14,7 @@ import Login from "../pages/auth/login";
 import Schedule from "../pages/schedules";
 import Setting from "../pages/settings";
 import User from "../pages/users";
+import History from "../pages/histories";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -40,6 +41,11 @@ export const router = createBrowserRouter([
         path: "ipranges",
         element: <IpRange />,
       },
+      {
+        path: "ipranges/:id",
+        element: <History />,
+      },
+
       {
         path: "reports",
         children: [

@@ -12,6 +12,7 @@ import scheduleSaga from "./schedules/saga";
 import settingSaga from "./settings/saga";
 import authSaga from "./auth/saga";
 import useSaga from "./users/saga";
+import historySaga from "./histories/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -28,5 +29,6 @@ export default function* rootSaga() {
     settingSaga(),
     authSaga(),
     useSaga(),
+    historySaga(),
   ]);
 }

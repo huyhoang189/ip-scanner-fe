@@ -16,6 +16,7 @@ import scheduleSlice from "./schedules/slice";
 import settingSlice from "./settings/slice";
 import authSlice from "./auth/slice";
 import userSlice from "./users/slice";
+import historySlice from "./histories/slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -35,6 +36,7 @@ export const store = configureStore({
     settings: settingSlice.reducer,
     auths: authSlice.reducer,
     users: userSlice.reducer,
+    histories: historySlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

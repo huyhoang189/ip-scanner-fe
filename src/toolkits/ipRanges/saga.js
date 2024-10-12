@@ -10,6 +10,8 @@ import {
   updateDepartmentIdForIpRanges,
 } from "../../apis/ipRange.api";
 
+import historySlice from "../histories/slice";
+
 function* _getAll({ payload }) {
   try {
     const state = yield select();
@@ -43,7 +45,15 @@ function* _handleItem({ payload }) {
     if (actionName === ACTION_NAME.CREATE) {
       ({ data, status } = yield call(create, item));
     } else if (actionName === ACTION_NAME.UPDATE) {
+      // call update api
       ({ data, status } = yield call(update, item));
+
+      yield put(
+        historySlice.actions.handleHistory({
+          actionName: ACTION_NAME.CREATE,
+          item: [{ IpRangeID: item?.ID, DepartmentID: item.DepartmentID }],
+        })
+      );
     } else if (actionName === ACTION_NAME.DELETE) {
       ({ data, status } = yield call(deleteItem, { ID: item.ID }));
     }
@@ -69,6 +79,16 @@ function* _handleUpdateIpRangess({ payload }) {
     const { item } = payload;
     let data, status;
     ({ data, status } = yield call(updateDepartmentIdForIpRanges, item));
+
+    yield put(
+      historySlice.actions.handleHistory({
+        actionName: ACTION_NAME.CREATE,
+        item: item.IpRangeIDs.map((id) => ({
+          IpRangeID: id,
+          DepartmentID: item.DepartmentID,
+        })),
+      })
+    );
 
     const isSuccess = status === 200 || status === 201;
 

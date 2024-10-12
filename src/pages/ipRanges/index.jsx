@@ -10,9 +10,10 @@ import TextInput from "../../components/Form/textinput";
 import {
   CreateButton,
   DeleteButton,
+  DetailButton,
   UpdateButton,
 } from "../../components/Button";
-import { Card, Col, Flex, Row, Space, Tag } from "antd";
+import { Card, Col, Flex, Image, Row, Space, Tag } from "antd";
 import ModalItem from "./modal";
 import ModalUpdateItem from "./multi.modal";
 import { generateTreesOnlyKey, getNodeByKey } from "../../utils/tree";
@@ -27,6 +28,11 @@ import {
 } from "@ant-design/icons";
 import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
 import SelectInput from "../../components/Form/selectinput";
+
+import activeIcon from "../../assets/status-active.svg";
+import inactiveIcon from "../../assets/status-inactive.svg";
+import { useNavigate } from "react-router-dom";
+
 const pageHeader = {
   breadcrumb: [
     {
@@ -55,21 +61,11 @@ const baseColumns = [
     width: 50,
     render: (text, record) => {
       return record?.IsActive ? (
-        <CheckCircleOutlined style={{ color: "green" }} />
+        <Image src={activeIcon} width={20} preview={false} />
       ) : (
-        <CloseCircleOutlined style={{ color: "red" }} />
+        <Image src={inactiveIcon} width={20} preview={false} />
       );
     },
-    // filters: [
-    //   {
-    //     text: "Sử dụng",
-    //     value: true,
-    //   },
-    //   {
-    //     text: "Không sử dụng",
-    //     value: false,
-    //   },
-    // ],
   },
   {
     title: "Dải IP",
@@ -112,6 +108,7 @@ const baseColumns = [
 
 const IpRange = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     ipRanges,
@@ -206,6 +203,11 @@ const IpRange = () => {
           direction="horizontal"
           style={{ width: "100%", justifyContent: "center" }}
         >
+          <DetailButton
+            onClick={() => {
+              navigate(`${record.ID}`);
+            }}
+          />
           <UpdateButton onClick={() => handleModal(record)} />
           <DeleteButton
             onConfirm={() => {
