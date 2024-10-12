@@ -29,8 +29,12 @@ const initialState = {
   pageNumber: 1,
   departmentNodeSelected: {},
   sortParams: {
-    sortField: null, // default sort field
-    sortOrder: null, // default sort order
+    sortField: "TimeActiveRecently", // default sort field
+    sortOrder: "desc", // default sort order
+  },
+  searchOptions: {
+    keyword: "",
+    activeStatus: null,
   },
 };
 
@@ -82,6 +86,9 @@ const reducer = createSlice({
     },
     updateSortParams: (state, action) => {
       state.sortParams = action.payload;
+    },
+    upadteSearchOptions: (state, action) => {
+      state.searchOptions = { ...state.searchOptions, ...action.payload };
     },
   },
 });

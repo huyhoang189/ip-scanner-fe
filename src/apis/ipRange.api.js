@@ -19,7 +19,7 @@ export const getAllByDepartmentId = (payload) => {
       payload?.keyword || ""
     }&sortField=${payload?.sortParams?.sortField || ""}&sortOrder=${
       payload?.sortParams?.sortOrder || ""
-    }`,
+    }&activeStatus=${payload?.activeStatus || ""}`,
     method: "GET",
   });
 };

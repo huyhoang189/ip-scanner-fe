@@ -12,7 +12,7 @@ import {
   DeleteButton,
   UpdateButton,
 } from "../../components/Button";
-import { Card, Col, Row, Space, Tag } from "antd";
+import { Card, Col, Flex, Row, Space, Tag } from "antd";
 import ModalItem from "./modal";
 import ModalUpdateItem from "./multi.modal";
 import { generateTreesOnlyKey, getNodeByKey } from "../../utils/tree";
@@ -26,6 +26,7 @@ import {
   SwapRightOutlined,
 } from "@ant-design/icons";
 import { PageBodyWrapper } from "../../assets/styles/pageBodyWrapper.style";
+import SelectInput from "../../components/Form/selectinput";
 const pageHeader = {
   breadcrumb: [
     {
@@ -59,6 +60,16 @@ const baseColumns = [
         <CloseCircleOutlined style={{ color: "red" }} />
       );
     },
+    // filters: [
+    //   {
+    //     text: "Sử dụng",
+    //     value: true,
+    //   },
+    //   {
+    //     text: "Không sử dụng",
+    //     value: false,
+    //   },
+    // ],
   },
   {
     title: "Dải IP",
@@ -112,22 +123,35 @@ const IpRange = () => {
     modalActive,
     modalUpdateActive,
     sortParams,
+    searchOptions,
   } = useSelector((state) => state.ipRanges);
   const { departmentTrees } = useSelector((state) => state.departments);
 
   // const [departmentNodeSelected, setSelectedNode] = useState({});
-  const [keyword, setKeyword] = useState("");
+  // const [keyword, setKeyword] = useState("");
   const [trees, setTrees] = useState([]);
   const [selectedIpRanges, setSelectedIpRanges] = useState([]);
 
   const onChangeKeywordInput = (key, event) => {
-    setKeyword(event.target.value);
+    // setKeyword(event.target.value);
+    dispatch(
+      ipRangeSlice.actions.upadteSearchOptions({
+        keyword: event.target.value,
+      })
+    );
+  };
+
+  const onChangeSelectedStatus = (key, value) => {
+    dispatch(
+      ipRangeSlice.actions.upadteSearchOptions({
+        activeStatus: value,
+      })
+    );
   };
 
   const handlePaginationChange = (current, pageSize) => {
     dispatch(
       ipRangeSlice.actions.getIpRanges({
-        keyword,
         pageSize: pageSize,
         pageNumber: current,
       })
@@ -208,7 +232,6 @@ const IpRange = () => {
     if (!modalActive && !modalUpdateActive && departmentTrees) {
       dispatch(
         ipRangeSlice.actions.getIpRanges({
-          keyword,
           pageSize: 10,
           pageNumber: 1,
           departmentId: departmentNodeSelected?.value,
@@ -216,17 +239,16 @@ const IpRange = () => {
       );
       setSelectedIpRanges([]);
     }
-  }, [departmentNodeSelected, keyword, modalActive, modalUpdateActive]);
+  }, [departmentNodeSelected, modalActive, modalUpdateActive]);
 
   useEffect(() => {
     dispatch(
       ipRangeSlice.actions.getIpRanges({
-        keyword,
         pageSize: pageSize,
         pageNumber: pageNumber,
       })
     );
-  }, [sortParams]);
+  }, [sortParams, searchOptions]);
 
   useEffect(() => {
     if (trees && !departmentNodeSelected?.ID) {
@@ -238,7 +260,6 @@ const IpRange = () => {
   useEffect(() => {
     dispatch(
       departmentSlice.actions.getDepartmentTrees({
-        keyword,
         pageSize: 1000,
         pageNumber: 1,
       })
@@ -262,35 +283,59 @@ const IpRange = () => {
       <CustomBreadcrumb items={pageHeader.breadcrumb} />
       <Row gutter={8}>
         <Col span={6}>
-          <PageBodyWrapper>
+          <PageBodyWrapper style={{ marginTop: 0 }}>
             <TreeView treeData={trees ? trees : []} onSelected={onSelected} />
           </PageBodyWrapper>
         </Col>
         <Col span={18}>
-          <PageBodyWrapper>
-            <CustomeTable
-              header={
-                <Header>
-                  <TextInput
-                    placeholder={"Nhập vào từ khoá tìm kiếm"}
-                    onChange={onChangeKeywordInput}
-                    property={"keyword"}
-                    width={20}
+          <PageBodyWrapper style={{ marginTop: 0 }}>
+            <Header>
+              <Flex style={{ width: 400 }} gap={10}>
+                <TextInput
+                  placeholder={"Tìm kiếm"}
+                  onChange={onChangeKeywordInput}
+                  property={"keyword"}
+                  width={100}
+                  value={searchOptions.keyword}
+                />
+                <SelectInput
+                  options={[
+                    {
+                      label: "Tất cả",
+                      value: null,
+                    },
+                    {
+                      label: "Sử dụng",
+                      value: "true",
+                    },
+                    {
+                      label: "Không sử dụng",
+                      value: "false",
+                    },
+                  ]}
+                  width={50}
+                  property={"activeStatus"}
+                  value={searchOptions.activeStatus}
+                  onChange={onChangeSelectedStatus}
+                />
+              </Flex>
+              <Space>
+                {selectedIpRanges.length > 0 && (
+                  <CreateButton
+                    icon={<DoubleRightOutlined />}
+                    text="Cập nhật đơn vị"
+                    onClick={() =>
+                      dispatch(ipRangeSlice.actions.toggleModalUpdate())
+                    }
                   />
-                  <Space>
-                    {selectedIpRanges.length > 0 && (
-                      <CreateButton
-                        icon={<DoubleRightOutlined />}
-                        text="Cập nhật đơn vị"
-                        onClick={() =>
-                          dispatch(ipRangeSlice.actions.toggleModalUpdate())
-                        }
-                      />
-                    )}
-                    <CreateButton onClick={() => handleModal(null)} />
-                  </Space>
-                </Header>
-              }
+                )}
+                <CreateButton onClick={() => handleModal(null)} />
+              </Space>
+            </Header>
+            <CustomeTable
+              // header={
+
+              // }
               data={ipRanges}
               columns={columns}
               isLoading={isLoading}

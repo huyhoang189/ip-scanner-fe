@@ -17,8 +17,10 @@ function* _getAll({ payload }) {
     if (ipRanges?.departmentNodeSelected?.ID) {
       const { data, status } = yield call(getAllByDepartmentId, {
         ...payload,
+        keyword: ipRanges?.searchOptions?.keyword,
         departmentId: ipRanges?.departmentNodeSelected?.ID,
         sortParams: ipRanges?.sortParams,
+        activeStatus: ipRanges?.searchOptions?.activeStatus,
       });
       if (status === 200 || status === 201) {
         yield put(ipRangeSlice.actions.getIpRangesSuccess(data));
