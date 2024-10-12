@@ -47,10 +47,11 @@ const baseColumns = [
   //   align: "center",
   // },
   {
-    title: "Online",
+    // title: "Online",
     dataIndex: "IsActive",
     key: "IsActive",
     align: "center",
+    width: 50,
     render: (text, record) => {
       return record?.IsActive ? (
         <CheckCircleOutlined style={{ color: "green" }} />
@@ -63,15 +64,17 @@ const baseColumns = [
     title: "Dải IP",
     dataIndex: "IpRange",
     key: "IpRange",
+    align: "center",
+    sorter: true,
   },
   {
     title: "Đơn vị",
     dataIndex: "Department",
     key: "Department",
-
     render: (text, record) => {
       return record?.Department?.FullName;
     },
+    sorter: true,
   },
 
   {
@@ -82,6 +85,7 @@ const baseColumns = [
     render: (text, record) => {
       return convertTime(record?.TimeActiveRecently);
     },
+    sorter: true,
   },
   {
     title: "Thời gian cập nhật",
@@ -91,6 +95,7 @@ const baseColumns = [
     render: (text, record) => {
       return convertTime(record?.CreatedAt);
     },
+    sorter: true,
   },
 ];
 
@@ -106,6 +111,7 @@ const IpRange = () => {
     departmentNodeSelected,
     modalActive,
     modalUpdateActive,
+    sortParams,
   } = useSelector((state) => state.ipRanges);
   const { departmentTrees } = useSelector((state) => state.departments);
 
@@ -137,6 +143,25 @@ const IpRange = () => {
       const node = getNodeByKey(trees, e[0]);
       dispatch(ipRangeSlice.actions.updateDepartmentNodeSelected(node));
     }
+  };
+
+  const onChangeTable = (pagination, filters, sorter) => {
+    dispatch(
+      ipRangeSlice.actions.updateSortParams({
+        sortField:
+          sorter.field === "Department"
+            ? "DepartmentID"
+            : sorter.field === "IpRange"
+            ? "IpRangeInt"
+            : sorter.field,
+        sortOrder:
+          sorter.order === "ascend"
+            ? "asc"
+            : sorter.order === "descend"
+            ? "desc"
+            : null,
+      })
+    );
   };
 
   const rowSelection = {
@@ -192,6 +217,16 @@ const IpRange = () => {
       setSelectedIpRanges([]);
     }
   }, [departmentNodeSelected, keyword, modalActive, modalUpdateActive]);
+
+  useEffect(() => {
+    dispatch(
+      ipRangeSlice.actions.getIpRanges({
+        keyword,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      })
+    );
+  }, [sortParams]);
 
   useEffect(() => {
     if (trees && !departmentNodeSelected?.ID) {
@@ -269,6 +304,7 @@ const IpRange = () => {
                 type: "checkbox",
                 ...rowSelection,
               }}
+              onChange={onChangeTable}
             />
           </PageBodyWrapper>
         </Col>

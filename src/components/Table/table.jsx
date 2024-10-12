@@ -11,6 +11,7 @@ const CustomeTable = ({
   onRow = null,
   header = null,
   showHeader = true,
+  onChange = null,
 }) => {
   let dataSource = [];
   dataSource = data.map((e, i) => ({
@@ -34,6 +35,7 @@ const CustomeTable = ({
         onRow={onRow}
         showHeader={showHeader}
         rowSelection={rowSelection}
+        onChange={onChange}
       />
     </Row>
   );

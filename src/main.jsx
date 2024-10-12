@@ -21,15 +21,17 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         colorBorderSecondary: "#d6d9dc",
         colorBorder: "#d6d9dc",
         fontSize: 12,
-        colorPrimary: "#3e79f7",
+        colorPrimary: "#2668f6",
         fontFamily: `Roboto, sans-serif !important`,
       },
       components: {
         Table: {
           rowHoverBg: "#fff",
           borderColor: "#d6d9dc",
-          headerBg: "#3e79f7",
+          headerBg: "#2668f6",
           headerColor: "#fff",
+          headerSortHoverBg: "#3e79f7",
+          headerSortActiveBg: "#3e79f7",
         },
         Button: {
           primaryShadow: "",

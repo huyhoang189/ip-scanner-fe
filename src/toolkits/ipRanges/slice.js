@@ -25,9 +25,13 @@ const initialState = {
   modalActive: false,
   modalUpdateActive: false,
   count: 0,
-  pageSize: 0,
-  pageNumber: 0,
+  pageSize: 10,
+  pageNumber: 1,
   departmentNodeSelected: {},
+  sortParams: {
+    sortField: null, // default sort field
+    sortOrder: null, // default sort order
+  },
 };
 
 const reducer = createSlice({
@@ -45,13 +49,14 @@ const reducer = createSlice({
     getIpRanges: (state, action) => {
       state.errorMessage = false;
       state.isLoading = true;
+      state.pageNumber = action.payload.pageNumber;
+      state.pageSize = action.payload.pageSize;
     },
     getIpRangesSuccess: (state, action) => {
       state.errorMessage = false;
       state.ipRanges = action.payload.Data;
       state.count = action.payload.Paging.totalItem;
-      state.pageNumber = action.payload.Paging.pageNumber;
-      state.pageSize = action.payload.Paging.pageSize;
+
       state.isLoading = false;
     },
     getIpRangesError: (state, action) => {
@@ -74,6 +79,9 @@ const reducer = createSlice({
     updateDepartmentNodeSelected: (state, action) => {
       state.departmentNodeSelected = action.payload;
       state.selectedIpRange = initialState.ipRange;
+    },
+    updateSortParams: (state, action) => {
+      state.sortParams = action.payload;
     },
   },
 });

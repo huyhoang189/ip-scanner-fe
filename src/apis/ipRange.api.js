@@ -15,7 +15,11 @@ export const getAllByDepartmentId = (payload) => {
   return api.makeRequest({
     url: `/ip-ranges/get-by-department-id/${payload?.departmentId}?pageSize=${
       payload?.pageSize || 10
-    }&pageNumber=${payload?.pageNumber || 1}&filter=${payload?.keyword || ""}`,
+    }&pageNumber=${payload?.pageNumber || 1}&filter=${
+      payload?.keyword || ""
+    }&sortField=${payload?.sortParams?.sortField || ""}&sortOrder=${
+      payload?.sortParams?.sortOrder || ""
+    }`,
     method: "GET",
   });
 };
