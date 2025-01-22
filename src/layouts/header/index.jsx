@@ -43,7 +43,7 @@ const Header = () => {
         <Typography.Text
           style={{
             // color: "#fff",
-            fontSize: 19,
+            fontSize: 25,
             fontWeight: 900,
             textTransform: "uppercase",
           }}
