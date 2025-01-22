@@ -3,8 +3,11 @@ import { getCookieToken } from "../utils/cookie";
 import { notification } from "antd";
 import { TOKEN_VERIFY } from "../utils/common";
 
+const backendURL =
+  localStorage.getItem("backendURL") || "http://localhost:8080";
+
 const jwtInterceoptor = axios.create({
-  baseURL: import.meta.env.VITE_BASE_BE_URL,
+  baseURL: backendURL,
   //timeout: 30000,
 });
 
@@ -63,10 +66,9 @@ const _makeRequest = (createRequest) => async (args) => {
 };
 
 export default (options = {}) => {
+  console.log(options);
   const instance = axios.create({
-    baseURL: options?.baseURL
-      ? options?.baseURL
-      : import.meta.env.VITE_BASE_BE_URL,
+    baseURL: options?.baseURL ? options?.baseURL : backendURL,
   });
 
   return {
